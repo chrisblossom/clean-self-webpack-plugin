@@ -1,0 +1,57 @@
+{
+  "name": "clean-self-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Webpack plugin to delete extraneous files created by Webpack",
+  "main": "dist/clean_self_webpack_plugin.js",
+  "repository": "https://github.com/chrisblossom/clean-self-webpack-plugin",
+  "author": "Chris Blossom",
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=2.0.0"
+  },
+  "scripts": {
+    "clean": "del ./dist/**/*",
+    "build": "npm run clean && NODE_ENV=production babel ./src --out-dir ./dist --source-maps",
+    "test": "jest",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "prettier": "find ./src -name \"*.js\" | grep -v -f .prettierignore | xargs prettier --tab-width 4 --single-quote --trailing-comma all --write",
+    "prepublishOnly": "npm run prettier && npm run lint:fix && npm run test && npm run build",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --tab-width 4 --single-quote --trailing-comma all --write",
+      "eslint --fix",
+      "jest",
+      "git add"
+    ],
+    "./*.js": [
+      "prettier --tab-width 4 --single-quote --trailing-comma es5 --write",
+      "eslint --fix",
+      "jest",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.25.0",
+    "babel-plugin-transform-object-rest-spread": "6.23.0",
+    "babel-preset-env": "1.5.2",
+    "del-cli": "1.0.0",
+    "eslint": "3.19.0",
+    "eslint-config-airbnb-base": "11.2.0",
+    "eslint-config-prettier": "2.2.0",
+    "eslint-plugin-import": "2.3.0",
+    "eslint-plugin-jest": "20.0.3",
+    "husky": "0.13.4",
+    "jest": "20.0.4",
+    "lint-staged": "4.0.0",
+    "prettier": "1.4.4",
+    "webpack": "3.0.0"
+  },
+  "dependencies": {
+    "del": "3.0.0"
+  }
+}

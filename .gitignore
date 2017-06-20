@@ -1,0 +1,9 @@
+node_modules
+/dist
+/__sandbox__
+.idea
+.vscode
+.DS_Store
+*.swp
+*.log
+*.ignore
