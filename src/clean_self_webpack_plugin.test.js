@@ -278,6 +278,12 @@ describe('CleanSelfWebpackPlugin', () => {
                 'bundle.js',
             ]);
 
+            expect(getBuildFiles()).toEqual([
+                '0.bundle.js',
+                'bundle.js',
+                'static1.js',
+            ]);
+
             createSrcBundle(1);
             compiler.run(() => {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([

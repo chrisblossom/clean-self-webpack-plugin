@@ -92,9 +92,9 @@ class CleanSelfWebpackPlugin {
             this.currentAssets = assets;
 
             /**
-             * Do nothing if there aren't any files to delete
+             * Do nothing if there aren't any files to delete and customPatterns is not defined
              */
-            if (staleFiles.length === 0) {
+            if (staleFiles.length === 0 && this.options.customPatterns.length === 0) {
                 return;
             }
 
