@@ -1,11 +1,23 @@
 {
   "name": "clean-self-webpack-plugin",
-  "version": "1.0.0",
-  "description": "Webpack plugin to delete extraneous files created by Webpack",
+  "version": "1.0.1",
   "main": "dist/clean_self_webpack_plugin.js",
-  "repository": "https://github.com/chrisblossom/clean-self-webpack-plugin",
   "author": "Chris Blossom",
+  "description": "Webpack plugin to delete extraneous files created by Webpack",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin/issues"
+  },
   "license": "MIT",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "clean",
+    "node"
+  ],
   "engines": {
     "node": ">=4.0.0",
     "npm": ">=2.0.0"
