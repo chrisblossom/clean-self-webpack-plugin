@@ -2,6 +2,7 @@ import path from 'path';
 import {
     appendFileSync,
     existsSync,
+    lstatSync,
     mkdirSync,
     readdirSync,
     writeFileSync,
@@ -91,10 +92,37 @@ function resetSandbox() {
     createSrcBundle(1);
 }
 
-function getBuildFiles() {
-    return readdirSync(buildDir).filter(file => {
-        return file !== '.gitignore';
-    });
+/**
+ * returns a recursive flattened list of files inside a directory
+ *
+ * Example:
+ * [
+ *     'js/bundle.js',
+ *     'js/chunks/0.bundle.js',
+ *     'static1.js',
+ *     'static2.txt',
+ * ]
+ */
+function getBuildFiles(rootDir) {
+    const getFiles = (dir, basePath = '.') => {
+        return readdirSync(dir).reduce((acc, file) => {
+            const pathname = path.resolve(rootDir, basePath, file);
+
+            if (lstatSync(pathname).isDirectory()) {
+                const nestedDir = getFiles(pathname, path.join(basePath, file));
+
+                return [...acc, ...nestedDir];
+            }
+
+            const relativePath = path.join(basePath, file);
+
+            return [...acc, relativePath];
+        }, []);
+    };
+
+    const files = getFiles(rootDir);
+
+    return files;
 }
 
 function createSandbox() {
@@ -184,8 +212,51 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles()).toEqual([
+                expect(getBuildFiles(buildDir)).toEqual([
                     'bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
+
+                done();
+            });
+        });
+    });
+
+    it('removes nested files', done => {
+        createSrcBundle(3);
+
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+        const compiler = webpack({
+            entry: entryFile,
+            output: {
+                path: buildDir,
+                filename: 'js/bundle.js',
+                chunkFilename: 'js/chunks/[name].bundle.js',
+            },
+            plugins: [cleanSelfWebpackPlugin],
+        });
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+        compiler.run(() => {
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                'js/chunks/0.bundle.js',
+                'js/chunks/1.bundle.js',
+                'js/bundle.js',
+            ]);
+
+            createSrcBundle(2);
+            compiler.run(() => {
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    'js/chunks/0.bundle.js',
+                    'js/bundle.js',
+                ]);
+
+                expect(getBuildFiles(buildDir)).toEqual([
+                    'js/bundle.js',
+                    'js/chunks/0.bundle.js',
                     'static1.js',
                     'static2.txt',
                 ]);
@@ -223,7 +294,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles()).toEqual([
+                expect(getBuildFiles(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                     'static2.txt',
@@ -236,7 +307,7 @@ describe('CleanSelfWebpackPlugin', () => {
                         'bundle.js',
                     ]);
 
-                    expect(getBuildFiles()).toEqual([
+                    expect(getBuildFiles(buildDir)).toEqual([
                         '0.bundle.js',
                         'bundle.js',
                         'static1.js',
@@ -278,7 +349,7 @@ describe('CleanSelfWebpackPlugin', () => {
                 'bundle.js',
             ]);
 
-            expect(getBuildFiles()).toEqual([
+            expect(getBuildFiles(buildDir)).toEqual([
                 '0.bundle.js',
                 'bundle.js',
                 'static1.js',
@@ -290,7 +361,10 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles()).toEqual(['bundle.js', 'static1.js']);
+                expect(getBuildFiles(buildDir)).toEqual([
+                    'bundle.js',
+                    'static1.js',
+                ]);
 
                 done();
             });
@@ -331,7 +405,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles()).toEqual([
+                expect(getBuildFiles(buildDir)).toEqual([
                     '0.bundle.js',
                     'bundle.js',
                     'static1.js',
@@ -410,7 +484,7 @@ describe('CleanSelfWebpackPlugin', () => {
     it('handles the initialPatterns option (only calls once)', done => {
         createSrcBundle(1);
 
-        const initialBuildFiles = getBuildFiles();
+        const initialBuildFiles = getBuildFiles(buildDir);
         expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -431,7 +505,10 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
-            expect(getBuildFiles()).toEqual(['bundle.js', 'static1.js']);
+            expect(getBuildFiles(buildDir)).toEqual([
+                'bundle.js',
+                'static1.js',
+            ]);
 
             createStaticFiles();
 
@@ -440,7 +517,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles()).toEqual([
+                expect(getBuildFiles(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                     'static2.txt',
