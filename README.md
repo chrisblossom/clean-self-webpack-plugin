@@ -87,9 +87,7 @@ new CleanSelfWebpackPlugin({
      *
      * Removes files on after every build that match this pattern. Used for files that are not created directly by Webpack.
      *
-     *
      * default: disabled
-     *
      */
     customPatterns: ['static*.*', '!static1.js'],
 
