@@ -7,7 +7,7 @@ module.exports = wallaby => {
         files: [
             'src/**/*.js',
             'jest.config.js',
-            '__sandbox__/**/*',
+            // '__sandbox__/**/*', // I don't think this is necessary because it is created by the tests
             '!src/**/*.test.js',
         ],
 
