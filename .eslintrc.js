@@ -17,5 +17,6 @@ module.exports = {
     plugins: ['jest'],
     rules: {
         'arrow-body-style': ['error', 'always'],
+        'import/prefer-default-export': 'off'
     },
 };
