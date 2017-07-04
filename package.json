@@ -1,6 +1,6 @@
 {
   "name": "clean-self-webpack-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/clean_self_webpack_plugin.js",
   "author": "Chris Blossom",
   "description": "Webpack plugin to delete extraneous files created by Webpack",
