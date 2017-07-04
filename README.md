@@ -1,7 +1,7 @@
 # Clean-Self-Webpack-Plugin
 Webpack plugin to delete extraneous files created by Webpack
 
-> NOTE: Webpack v2 and v3 are supported and tested. Webpack v1 might work, but it has not been tested.
+> NOTE: Webpack v2 and v3 are supported and tested. Webpack v1 is not supported.
 
 
 ## About

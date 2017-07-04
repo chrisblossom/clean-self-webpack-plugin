@@ -26,10 +26,13 @@
     "clean": "del ./dist/**/*",
     "build": "npm run clean && NODE_ENV=production babel ./src --out-dir ./dist --source-maps",
     "test": "jest",
+    "test:all": "npm run test:webpack2 && npm run test:webpack3",
+    "test:webpack2": "npm i --no-save webpack@2 && jest",
+    "test:webpack3": "npm i --no-save webpack@3 && jest",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "prettier": "find ./src -name \"*.js\" | grep -v -f .prettierignore | xargs prettier --tab-width 4 --single-quote --trailing-comma all --write",
-    "prepublishOnly": "npm run prettier && npm run lint:fix && npm run test && npm run build",
+    "prepublishOnly": "npm run prettier && npm run lint:fix && npm run test:all && npm run build",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -45,6 +48,9 @@
       "jest",
       "git add"
     ]
+  },
+  "peerDependencies": {
+    "webpack": "^2.0.0-0 || ^3.0.0-0"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
