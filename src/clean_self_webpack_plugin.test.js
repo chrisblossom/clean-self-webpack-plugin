@@ -36,7 +36,7 @@ function createSrcBundle(numberOfBundles = 1) {
 
         appendFileSync(
             entryFile,
-            `require.ensure([], require => require('./${filename}'));\n`,
+            `require.ensure([], function(require){ require('./${filename}')}, '${count}');\n`,
         );
 
         writeFileSync(
@@ -168,6 +168,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -181,7 +182,7 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             try {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '0.bundle.js',
+                    '1.bundle.js',
                     'bundle.js',
                 ]);
 
@@ -202,6 +203,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -215,7 +217,7 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             try {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '0.bundle.js',
+                    '1.bundle.js',
                     'bundle.js',
                 ]);
             } catch (error) {
@@ -267,7 +269,7 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             try {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    'js/chunks/0.bundle.js',
+                    'js/chunks/2.bundle.js',
                     'js/chunks/1.bundle.js',
                     'js/bundle.js',
                 ]);
@@ -279,13 +281,13 @@ describe('CleanSelfWebpackPlugin', () => {
             compiler.run(() => {
                 try {
                     expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'js/chunks/0.bundle.js',
+                        'js/chunks/1.bundle.js',
                         'js/bundle.js',
                     ]);
 
                     expect(getBuildFiles(buildDir)).toEqual([
                         'js/bundle.js',
-                        'js/chunks/0.bundle.js',
+                        'js/chunks/1.bundle.js',
                         'static1.js',
                         'static2.txt',
                     ]);
@@ -312,6 +314,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -349,12 +352,12 @@ describe('CleanSelfWebpackPlugin', () => {
                 compiler.run(() => {
                     try {
                         expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                            '0.bundle.js',
+                            '1.bundle.js',
                             'bundle.js',
                         ]);
 
                         expect(getBuildFiles(buildDir)).toEqual([
-                            '0.bundle.js',
+                            '1.bundle.js',
                             'bundle.js',
                             'static1.js',
                             'static2.txt',
@@ -386,6 +389,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -399,12 +403,12 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             try {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '0.bundle.js',
+                    '1.bundle.js',
                     'bundle.js',
                 ]);
 
                 expect(getBuildFiles(buildDir)).toEqual([
-                    '0.bundle.js',
+                    '1.bundle.js',
                     'bundle.js',
                     'static1.js',
                 ]);
@@ -448,6 +452,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -461,7 +466,7 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             try {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '0.bundle.js',
+                    '1.bundle.js',
                     'bundle.js',
                 ]);
             } catch (error) {
@@ -476,14 +481,14 @@ describe('CleanSelfWebpackPlugin', () => {
                     ]);
 
                     expect(getBuildFiles(buildDir)).toEqual([
-                        '0.bundle.js',
+                        '1.bundle.js',
                         'bundle.js',
                         'static1.js',
                         'static2.txt',
                     ]);
 
                     expect(consoleSpy).toHaveBeenCalledWith(
-                        'clean-self-webpack-plugin: dryRun 0.bundle.js',
+                        'clean-self-webpack-plugin: dryRun 1.bundle.js',
                     );
 
                     done();
@@ -509,6 +514,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -518,7 +524,7 @@ describe('CleanSelfWebpackPlugin', () => {
             compiler.run(() => {
                 try {
                     expect(consoleSpy).toHaveBeenCalledWith(
-                        'clean-self-webpack-plugin: removed 0.bundle.js',
+                        'clean-self-webpack-plugin: removed 1.bundle.js',
                     );
 
                     done();
@@ -541,6 +547,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
@@ -581,6 +588,7 @@ describe('CleanSelfWebpackPlugin', () => {
             output: {
                 path: buildDir,
                 filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
             },
             plugins: [cleanSelfWebpackPlugin],
         });
