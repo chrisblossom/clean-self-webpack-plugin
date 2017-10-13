@@ -32,7 +32,7 @@
     "test:webpack3": "npm i --no-save webpack@3 && jest",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "prettier": "find ./src -name \"*.js\" | grep -v -f .prettierignore | xargs prettier --tab-width 4 --single-quote --trailing-comma all --write",
+    "format": "find ./src -name \"*.js\" | grep -v -f .prettierignore | xargs prettier --tab-width 4 --single-quote --trailing-comma all --write",
     "prepublishOnly": "npm run clean:packages && npm install && npm run prettier && npm run lint:fix && npm run test:all && npm run build",
     "precommit": "lint-staged"
   },
@@ -54,23 +54,23 @@
     "webpack": "^2.0.0-0 || ^3.0.0-0"
   },
   "devDependencies": {
-    "babel-cli": "6.24.1",
-    "babel-core": "6.25.0",
-    "babel-plugin-transform-object-rest-spread": "6.23.0",
-    "babel-preset-env": "1.6.0",
-    "del-cli": "1.1.0",
-    "eslint": "3.19.0",
-    "eslint-config-airbnb-base": "11.2.0",
-    "eslint-config-prettier": "2.3.0",
-    "eslint-plugin-import": "2.6.1",
-    "eslint-plugin-jest": "20.0.3",
-    "husky": "0.14.3",
-    "jest": "20.0.4",
-    "lint-staged": "4.0.0",
-    "prettier": "1.5.2",
-    "webpack": "3.0.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "del-cli": "^1.1.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jest": "^21.2.0",
+    "husky": "^0.14.3",
+    "jest": "^21.2.1",
+    "lint-staged": "^4.2.3",
+    "prettier": "^1.7.4",
+    "webpack": "^3.7.1"
   },
   "dependencies": {
-    "del": "3.0.0"
+    "del": "^3.0.0"
   }
 }

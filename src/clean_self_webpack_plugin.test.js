@@ -173,23 +173,15 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '1.bundle.js',
-                    'bundle.js',
-                ]);
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+            ]);
 
-                done();
-            } catch (error) {
-                done.fail(error);
-            }
+            done();
         });
     });
 
@@ -208,39 +200,27 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '1.bundle.js',
-                    'bundle.js',
-                ]);
-            } catch (error) {
-                done.fail(error);
-            }
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+            ]);
 
             createSrcBundle(1);
             compiler.run(() => {
-                try {
-                    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'bundle.js',
-                    ]);
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    'bundle.js',
+                ]);
 
-                    expect(getBuildFiles(buildDir)).toEqual([
-                        'bundle.js',
-                        'static1.js',
-                        'static2.txt',
-                    ]);
+                expect(getBuildFiles(buildDir)).toEqual([
+                    'bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
 
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -260,42 +240,30 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    'js/chunks/2.bundle.js',
-                    'js/chunks/1.bundle.js',
-                    'js/bundle.js',
-                ]);
-            } catch (error) {
-                done.fail(error);
-            }
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                'js/chunks/2.bundle.js',
+                'js/chunks/1.bundle.js',
+                'js/bundle.js',
+            ]);
 
             createSrcBundle(2);
             compiler.run(() => {
-                try {
-                    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'js/chunks/1.bundle.js',
-                        'js/bundle.js',
-                    ]);
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    'js/chunks/1.bundle.js',
+                    'js/bundle.js',
+                ]);
 
-                    expect(getBuildFiles(buildDir)).toEqual([
-                        'js/bundle.js',
-                        'js/chunks/1.bundle.js',
-                        'static1.js',
-                        'static2.txt',
-                    ]);
+                expect(getBuildFiles(buildDir)).toEqual([
+                    'js/bundle.js',
+                    'js/chunks/1.bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
 
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -319,56 +287,39 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+            compiler.run(() => {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
                     'bundle.js',
                 ]);
-            } catch (error) {
-                done.fail(error);
-            }
 
-            compiler.run(() => {
-                try {
+                expect(getBuildFiles(buildDir)).toEqual([
+                    'bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
+
+                createSrcBundle(2);
+                compiler.run(() => {
                     expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                        '1.bundle.js',
                         'bundle.js',
                     ]);
 
                     expect(getBuildFiles(buildDir)).toEqual([
+                        '1.bundle.js',
                         'bundle.js',
                         'static1.js',
                         'static2.txt',
                     ]);
-                } catch (error) {
-                    done.fail(error);
-                }
-                createSrcBundle(2);
-                compiler.run(() => {
-                    try {
-                        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                            '1.bundle.js',
-                            'bundle.js',
-                        ]);
 
-                        expect(getBuildFiles(buildDir)).toEqual([
-                            '1.bundle.js',
-                            'bundle.js',
-                            'static1.js',
-                            'static2.txt',
-                        ]);
+                    expect(removeFilesSpy).not.toHaveBeenCalled();
 
-                        expect(removeFilesSpy).not.toHaveBeenCalled();
-
-                        done();
-                    } catch (error) {
-                        done.fail(error);
-                    }
+                    done();
                 });
             });
         });
@@ -394,44 +345,32 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+            ]);
+
+            expect(getBuildFiles(buildDir)).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+                'static1.js',
+            ]);
+
+            createSrcBundle(1);
+            compiler.run(() => {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '1.bundle.js',
                     'bundle.js',
                 ]);
 
                 expect(getBuildFiles(buildDir)).toEqual([
-                    '1.bundle.js',
                     'bundle.js',
                     'static1.js',
                 ]);
-            } catch (error) {
-                done.fail(error);
-            }
 
-            createSrcBundle(1);
-            compiler.run(() => {
-                try {
-                    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'bundle.js',
-                    ]);
-
-                    expect(getBuildFiles(buildDir)).toEqual([
-                        'bundle.js',
-                        'static1.js',
-                    ]);
-
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -457,44 +396,32 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '1.bundle.js',
-                    'bundle.js',
-                ]);
-            } catch (error) {
-                done.fail(error);
-            }
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+            ]);
 
             createSrcBundle(1);
             compiler.run(() => {
-                try {
-                    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'bundle.js',
-                    ]);
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    'bundle.js',
+                ]);
 
-                    expect(getBuildFiles(buildDir)).toEqual([
-                        '1.bundle.js',
-                        'bundle.js',
-                        'static1.js',
-                        'static2.txt',
-                    ]);
+                expect(getBuildFiles(buildDir)).toEqual([
+                    '1.bundle.js',
+                    'bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
 
-                    expect(consoleSpy).toHaveBeenCalledWith(
-                        'clean-self-webpack-plugin: dryRun 1.bundle.js',
-                    );
+                expect(consoleSpy).toHaveBeenCalledWith(
+                    'clean-self-webpack-plugin: dryRun 1.bundle.js',
+                );
 
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -522,15 +449,11 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             createSrcBundle(1);
             compiler.run(() => {
-                try {
-                    expect(consoleSpy).toHaveBeenCalledWith(
-                        'clean-self-webpack-plugin: removed 1.bundle.js',
-                    );
+                expect(consoleSpy).toHaveBeenCalledWith(
+                    'clean-self-webpack-plugin: removed 1.bundle.js',
+                );
 
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -555,13 +478,9 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             createSrcBundle(1);
             compiler.run(() => {
-                try {
-                    expect(consoleSpy).not.toHaveBeenCalled();
+                expect(consoleSpy).not.toHaveBeenCalled();
 
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });
@@ -573,11 +492,7 @@ describe('CleanSelfWebpackPlugin', () => {
         createSrcBundle(1);
 
         const initialBuildFiles = getBuildFiles(buildDir);
-        try {
-            expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
             initialPatterns: ['static2.txt'],
@@ -593,14 +508,18 @@ describe('CleanSelfWebpackPlugin', () => {
             plugins: [cleanSelfWebpackPlugin],
         });
 
-        try {
-            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-        } catch (error) {
-            done.fail(error);
-        }
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
 
         compiler.run(() => {
-            try {
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+            expect(getBuildFiles(buildDir)).toEqual([
+                'bundle.js',
+                'static1.js',
+            ]);
+
+            createStaticFiles();
+            compiler.run(() => {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
                     'bundle.js',
                 ]);
@@ -608,27 +527,10 @@ describe('CleanSelfWebpackPlugin', () => {
                 expect(getBuildFiles(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
+                    'static2.txt',
                 ]);
-            } catch (error) {
-                done.fail(error);
-            }
 
-            createStaticFiles();
-            compiler.run(() => {
-                try {
-                    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                        'bundle.js',
-                    ]);
-
-                    expect(getBuildFiles(buildDir)).toEqual([
-                        'bundle.js',
-                        'static1.js',
-                        'static2.txt',
-                    ]);
-                    done();
-                } catch (error) {
-                    done.fail(error);
-                }
+                done();
             });
         });
     });

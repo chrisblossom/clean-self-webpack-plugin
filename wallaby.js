@@ -7,7 +7,8 @@ module.exports = wallaby => {
         files: [
             'src/**/*.js',
             'jest.config.js',
-            // '__sandbox__/**/*', // I don't think this is necessary because it is created by the tests
+            'src/**/*.snap',
+            'src/**/__sandbox__/**/*',
             '!src/**/*.test.js',
         ],
 
@@ -23,9 +24,6 @@ module.exports = wallaby => {
         },
 
         testFramework: 'jest',
-
-        // https://github.com/wallabyjs/public/issues/465
-        workers: { initial: 1, regular: 1 },
 
         setup: w => {
             const jestConfig = require('./jest.config');
