@@ -1,6 +1,6 @@
 {
   "name": "clean-self-webpack-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/clean_self_webpack_plugin.js",
   "author": "Chris Blossom",
   "description": "Webpack plugin to delete extraneous files created by Webpack",
@@ -32,19 +32,13 @@
     "test:webpack3": "npm i --no-save webpack@3 && jest",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "format": "find ./src -name \"*.js\" | grep -v -f .prettierignore | xargs prettier --tab-width 4 --single-quote --trailing-comma all --write",
-    "prepublishOnly": "npm run clean:packages && npm install && npm run prettier && npm run lint:fix && npm run test:all && npm run build",
+    "format": "prettier \"**/*.js\" --write",
+    "prepublishOnly": "npm run clean:packages && npm install && npm run format && npm run lint:fix && npm run test:all && npm run build",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "prettier --tab-width 4 --single-quote --trailing-comma all --write",
-      "eslint --fix",
-      "jest",
-      "git add"
-    ],
-    "./*.js": [
-      "prettier --tab-width 4 --single-quote --trailing-comma es5 --write",
+    "*.js": [
+      "prettier --write",
       "eslint --fix",
       "jest",
       "git add"

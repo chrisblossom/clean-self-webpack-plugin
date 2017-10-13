@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Do not save-exact dependencies
+
+## [1.0.4] - 2017-10-13
+- use prettierrc.js
+- do not save-exact dependencies
 - fix npm prepublishOnly (does not work with Yarn)
 
 ## [1.0.3] - 2017-07-04
@@ -20,4 +23,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - customPatterns: ensure pattern removal after every build. [7772948a](https://github.com/chrisblossom/clean-self-webpack-plugin/commit/7772948a488ddedadff815c926a70ef18e84fb3d)
 
 ### Added
-- More tests
+- more tests
