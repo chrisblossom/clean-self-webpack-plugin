@@ -70,6 +70,20 @@ class CleanSelfWebpackPlugin {
 
         compiler.plugin('done', (stats) => {
             /**
+             * Do nothing if there is a webpack error
+             */
+            if (stats.hasErrors()) {
+                if (this.options.verbose) {
+                    // eslint-disable-next-line no-console
+                    console.warn(
+                        `clean-self-webpack-plugin: pausing due to webpack errors`,
+                    );
+                }
+
+                return;
+            }
+
+            /**
              * Fetch Webpack's output asset files
              */
             const assets = stats.toJson().assets.map((asset) => {

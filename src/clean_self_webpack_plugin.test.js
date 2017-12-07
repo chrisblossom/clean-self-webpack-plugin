@@ -534,4 +534,73 @@ describe('CleanSelfWebpackPlugin', () => {
             });
         });
     });
+
+    /**
+     * webpack errors
+     */
+    it('does nothing when webpack errors are present', (done) => {
+        createSrcBundle(2);
+
+        const initialBuildFiles = getBuildFiles(buildDir);
+        expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
+
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
+            verbose: true,
+        });
+
+        const compiler = webpack({
+            entry: entryFile,
+            output: {
+                path: buildDir,
+                filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
+            },
+            plugins: [cleanSelfWebpackPlugin],
+        });
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+        compiler.run(() => {
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+            ]);
+
+            expect(getBuildFiles(buildDir)).toEqual([
+                '1.bundle.js',
+                'bundle.js',
+                'static1.js',
+                'static2.txt',
+            ]);
+
+            expect(consoleSpy.mock.calls).toEqual([]);
+
+            /**
+             * remove entry file to create webpack compile error
+             */
+            del.sync(entryFile);
+
+            compiler.run(() => {
+                expect(consoleSpy.mock.calls).toEqual([
+                    [
+                        'clean-self-webpack-plugin: pausing due to webpack errors',
+                    ],
+                ]);
+
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    '1.bundle.js',
+                    'bundle.js',
+                ]);
+
+                expect(getBuildFiles(buildDir)).toEqual([
+                    '1.bundle.js',
+                    'bundle.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
+
+                done();
+            });
+        });
+    });
 });
