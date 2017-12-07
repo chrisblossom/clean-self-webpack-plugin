@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.5] - 2017-12-07
+- handle webpack errors - run only on successful webpack compilation
+- package updates
+
 ## [1.0.4] - 2017-10-13
 - use prettierrc.js
 - do not save-exact dependencies
