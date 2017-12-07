@@ -2,7 +2,7 @@
 
 'use strict';
 
-module.exports = wallaby => {
+module.exports = (wallaby) => {
     return {
         files: [
             'src/**/*.js',
@@ -25,7 +25,7 @@ module.exports = wallaby => {
 
         testFramework: 'jest',
 
-        setup: w => {
+        setup: (w) => {
             const jestConfig = require('./jest.config');
             w.testFramework.configure(jestConfig);
         },

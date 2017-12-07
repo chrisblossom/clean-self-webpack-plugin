@@ -159,7 +159,7 @@ describe('CleanSelfWebpackPlugin', () => {
         cleanSandbox();
     });
 
-    it('adds files to current assets', done => {
+    it('adds files to current assets', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
@@ -185,7 +185,7 @@ describe('CleanSelfWebpackPlugin', () => {
         });
     });
 
-    it('removes only webpack files', done => {
+    it('removes only webpack files', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
@@ -225,7 +225,7 @@ describe('CleanSelfWebpackPlugin', () => {
         });
     });
 
-    it('removes nested files', done => {
+    it('removes nested files', (done) => {
         createSrcBundle(3);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
@@ -268,7 +268,7 @@ describe('CleanSelfWebpackPlugin', () => {
         });
     });
 
-    it('does nothing when nothing changes or files added but not removed', done => {
+    it('does nothing when nothing changes or files added but not removed', (done) => {
         createSrcBundle(1);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
@@ -328,7 +328,7 @@ describe('CleanSelfWebpackPlugin', () => {
     /**
      * customPatterns option
      */
-    it('removes with customPatterns', done => {
+    it('removes with customPatterns', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -378,7 +378,7 @@ describe('CleanSelfWebpackPlugin', () => {
     /**
      * dryRun option
      */
-    it('respects dryRun option (force verbose)', done => {
+    it('respects dryRun option (force verbose)', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -429,7 +429,7 @@ describe('CleanSelfWebpackPlugin', () => {
     /**
      * Verbose option
      */
-    it('respects verbose option - true', done => {
+    it('respects verbose option - true', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -458,7 +458,7 @@ describe('CleanSelfWebpackPlugin', () => {
         });
     });
 
-    it('respects verbose option - false', done => {
+    it('respects verbose option - false', (done) => {
         createSrcBundle(2);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -488,7 +488,7 @@ describe('CleanSelfWebpackPlugin', () => {
     /**
      * initialPatterns option
      */
-    it('handles the initialPatterns option (only calls once)', done => {
+    it('handles the initialPatterns option (only calls once)', (done) => {
         createSrcBundle(1);
 
         const initialBuildFiles = getBuildFiles(buildDir);

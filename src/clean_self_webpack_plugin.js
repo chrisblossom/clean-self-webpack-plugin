@@ -68,11 +68,11 @@ class CleanSelfWebpackPlugin {
             });
         }
 
-        compiler.plugin('done', stats => {
+        compiler.plugin('done', (stats) => {
             /**
              * Fetch Webpack's output asset files
              */
-            const assets = stats.toJson().assets.map(asset => {
+            const assets = stats.toJson().assets.map((asset) => {
                 return asset.name;
             });
 
@@ -81,7 +81,7 @@ class CleanSelfWebpackPlugin {
              *
              * (relies on del's cwd: outputPath option)
              */
-            const staleFiles = this.currentAssets.filter(previousAsset => {
+            const staleFiles = this.currentAssets.filter((previousAsset) => {
                 // .includes is not supported without a polyfill
                 return assets.indexOf(previousAsset) === -1;
             });
@@ -122,7 +122,7 @@ class CleanSelfWebpackPlugin {
          * Log if verbose is enabled
          */
         if (this.options.verbose) {
-            deleted.forEach(file => {
+            deleted.forEach((file) => {
                 const filename = path.parse(file).base;
 
                 const message = this.options.dryRun ? 'dryRun' : 'removed';

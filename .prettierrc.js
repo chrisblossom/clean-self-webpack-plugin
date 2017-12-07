@@ -2,14 +2,16 @@
 
 module.exports = {
     semi: true,
-    'tab-width': 4,
-    'single-quote': true,
-    'trailing-comma': 'all',
+    tabWidth: 4,
+    singleQuote: true,
+    trailingComma: 'all',
+    arrowParens: 'always',
     overrides: [
         {
-            files: './*.js',
+            files: '*.js',
+            excludeFiles: '*/**',
             options: {
-                'trailing-comma': 'es5',
+                trailingComma: 'es5',
             },
         },
     ],
