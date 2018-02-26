@@ -38,90 +38,102 @@ class CleanSelfWebpackPlugin {
          * Only used with initialPatterns
          */
         this.initialClean = false;
+
+        this.handleInitial = this.handleInitial.bind(this);
+        this.handleDone = this.handleDone.bind(this);
+        this.removeFiles = this.removeFiles.bind(this);
     }
 
     apply(compiler) {
         const outputPath = compiler.options.output.path;
 
-        /**
-         * Initially remove files from output directory prior to build.
-         *
-         * Only happens once.
-         *
-         * Warning: It is highly recommended to clean your build directory outside of webpack to minimize unexpected behavior.
-         */
         if (this.options.initialPatterns.length !== 0) {
             compiler.plugin('compile', () => {
-                if (this.initialClean) {
-                    return;
-                }
-
-                this.initialClean = true;
-
-                this.removeFiles({
-                    outputPath,
-                    patterns: [
-                        ...this.options.initialPatterns,
-                        ...this.options.customPatterns,
-                    ],
-                });
+                this.handleInitial({ outputPath });
             });
         }
 
         compiler.plugin('done', (stats) => {
-            /**
-             * Do nothing if there is a webpack error
-             */
-            if (stats.hasErrors()) {
-                if (this.options.verbose) {
-                    // eslint-disable-next-line no-console
-                    console.warn(
-                        `clean-self-webpack-plugin: pausing due to webpack errors`,
-                    );
-                }
+            this.handleDone({ stats, outputPath });
+        });
+    }
 
-                return;
+    /**
+     * Initially remove files from output directory prior to build.
+     *
+     * Only happens once.
+     *
+     * Warning: It is highly recommended to clean your build directory outside of webpack to minimize unexpected behavior.
+     */
+    handleInitial({ outputPath }) {
+        if (this.initialClean) {
+            return;
+        }
+
+        this.initialClean = true;
+
+        this.removeFiles({
+            outputPath,
+            patterns: [
+                ...this.options.initialPatterns,
+                ...this.options.customPatterns,
+            ],
+        });
+    }
+
+    handleDone({ stats, outputPath }) {
+        /**
+         * Do nothing if there is a webpack error
+         */
+        if (stats.hasErrors()) {
+            if (this.options.verbose) {
+                // eslint-disable-next-line no-console
+                console.warn(
+                    `clean-self-webpack-plugin: pausing due to webpack errors`,
+                );
             }
 
-            /**
-             * Fetch Webpack's output asset files
-             */
-            const assets = stats.toJson().assets.map((asset) => {
-                return asset.name;
-            });
+            return;
+        }
 
-            /**
-             * Get all files that were in the previous build but not the current
-             *
-             * (relies on del's cwd: outputPath option)
-             */
-            const staleFiles = this.currentAssets.filter((previousAsset) => {
-                // .includes is not supported without a polyfill
-                return assets.indexOf(previousAsset) === -1;
-            });
+        /**
+         * Fetch Webpack's output asset files
+         */
+        const assets = stats.toJson().assets.map((asset) => {
+            return asset.name;
+        });
 
-            /**
-             * Save assets for next compilation
-             */
-            this.currentAssets = assets;
+        /**
+         * Get all files that were in the previous build but not the current
+         *
+         * (relies on del's cwd: outputPath option)
+         */
+        const staleFiles = this.currentAssets.filter((previousAsset) => {
+            // .includes is not supported without a polyfill
+            return assets.indexOf(previousAsset) === -1;
+        });
 
-            /**
-             * Do nothing if there aren't any files to delete and customPatterns is not defined
-             */
-            if (
-                staleFiles.length === 0 &&
-                this.options.customPatterns.length === 0
-            ) {
-                return;
-            }
+        /**
+         * Save assets for next compilation
+         */
+        this.currentAssets = assets;
 
-            /**
-             * Merge customPatters with stale files.
-             */
-            this.removeFiles({
-                outputPath,
-                patterns: [...staleFiles, ...this.options.customPatterns],
-            });
+        /**
+         * Do nothing if there aren't any files to delete and customPatterns is not defined
+         */
+        if (
+            staleFiles.length === 0 &&
+            this.options.customPatterns.length === 0
+        ) {
+            return;
+        }
+
+        /**
+         * Merge customPatters with stale files.
+         */
+        this.removeFiles({
+            outputPath,
+            patterns: [...staleFiles, ...this.options.customPatterns],
         });
     }
 
