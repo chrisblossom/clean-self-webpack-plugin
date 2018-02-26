@@ -1,19 +1,20 @@
 # Clean-Self-Webpack-Plugin
+
 Webpack plugin to delete extraneous files created by Webpack
 
 > NOTE: Webpack v2 and v3 are supported and tested. Webpack v1 is not supported.
 
-
 ## About
-By default, this plugin will only remove files created by Webpack after compilation has completed. 
+
+By default, this plugin will only remove files created by Webpack after compilation has completed.
 Although it can be configured to remove other files, it is not recommended.
 
-
 ## Installation
-``yarn add --dev clean-self-webpack-plugin`` / ``npm install --save-dev clean-self-webpack-plugin``
 
+`yarn add --dev clean-self-webpack-plugin` / `npm install --save-dev clean-self-webpack-plugin`
 
 ## Usage
+
 ```js
 import webpack from 'webpack';
 import path from 'path';
@@ -26,7 +27,7 @@ const outputPath = path.resolve(process.cwd(), 'build');
  * Remove project files before webpack is loaded. Be sure it is not async.
  *
  * It is HIGHLY recommended to handle the initial build directory clean outside of this plugin / webpack.
- * 
+ *
  * Popular existing packages:
  * https://github.com/isaacs/rimraf
  * https://github.com/sindresorhus/del -- I prefer this one, great glob support and has CLI (del-cli package)
@@ -46,7 +47,6 @@ const webpackConfig = {
 
 export default webpackConfig;
 ```
-
 
 ## Options
 
@@ -101,11 +101,13 @@ new CleanSelfWebpackPlugin({
      * default: disabled
      */
     initialPatterns: ['*/**'],
-})
+});
 ```
 
 ## Thanks To / Related Projects
+
 This package was created with the great work / lessons learned from:
+
 * [johnagan/clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
 * [gpbl/webpack-cleanup-plugin](https://github.com/gpbl/webpack-cleanup-plugin)
 * [sindresorhus/del](https://github.com/sindresorhus/del)

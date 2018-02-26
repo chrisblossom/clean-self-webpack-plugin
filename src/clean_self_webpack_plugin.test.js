@@ -41,7 +41,8 @@ function createSrcBundle(numberOfBundles = 1) {
 
         writeFileSync(
             path.resolve(sandboxDir, `src/${filename}`),
-            `'use strict';\n\nmodule.exports = '${filename}';\n`,
+            // eslint-disable-next-line no-useless-concat
+            `'use strict';\n\n` + `module.exports = '${filename}';\n`,
         );
 
         count += 1;

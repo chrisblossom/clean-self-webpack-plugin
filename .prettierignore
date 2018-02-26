@@ -4,3 +4,4 @@ node_modules
 dist
 __sandbox__
 .git
+package.json
