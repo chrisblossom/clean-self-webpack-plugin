@@ -108,6 +108,6 @@ new CleanSelfWebpackPlugin({
 
 This package was created with the great work / lessons learned from:
 
-* [johnagan/clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
-* [gpbl/webpack-cleanup-plugin](https://github.com/gpbl/webpack-cleanup-plugin)
-* [sindresorhus/del](https://github.com/sindresorhus/del)
+*   [johnagan/clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
+*   [gpbl/webpack-cleanup-plugin](https://github.com/gpbl/webpack-cleanup-plugin)
+*   [sindresorhus/del](https://github.com/sindresorhus/del)
