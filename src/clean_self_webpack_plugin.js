@@ -47,15 +47,34 @@ class CleanSelfWebpackPlugin {
     apply(compiler) {
         const outputPath = compiler.options.output.path;
 
+        /**
+         * webpack 4+ comes with a new plugin system.
+         *
+         * Check for hooks in-order to support old plugin system
+         */
+        const hooks = compiler.hooks;
+
         if (this.options.initialPatterns.length !== 0) {
-            compiler.plugin('compile', () => {
-                this.handleInitial({ outputPath });
-            });
+            if (hooks) {
+                hooks.compile.tap('clean-self-webpack-plugin', () => {
+                    this.handleInitial({ outputPath });
+                });
+            } else {
+                compiler.plugin('compile', () => {
+                    this.handleInitial({ outputPath });
+                });
+            }
         }
 
-        compiler.plugin('done', (stats) => {
-            this.handleDone({ stats, outputPath });
-        });
+        if (hooks) {
+            hooks.done.tap('clean-self-webpack-plugin', (stats) => {
+                this.handleDone({ stats, outputPath });
+            });
+        } else {
+            compiler.plugin('done', (stats) => {
+                this.handleDone({ stats, outputPath });
+            });
+        }
     }
 
     /**

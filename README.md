@@ -2,7 +2,7 @@
 
 Webpack plugin to delete extraneous files created by Webpack
 
-> NOTE: Webpack v2 and v3 are supported and tested. Webpack v1 is not supported.
+> NOTE: Webpack v2, v3, and v4 are supported and tested. Webpack v1 is not supported.
 
 ## About
 
