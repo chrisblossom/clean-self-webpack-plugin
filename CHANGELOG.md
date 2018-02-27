@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+*   Project optimizations
+
 ## [1.1.0] - 2018-02-26
 
 *   Support Webpack v4

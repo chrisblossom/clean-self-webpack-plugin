@@ -1,7 +1,7 @@
 {
   "name": "clean-self-webpack-plugin",
   "version": "1.1.0",
-  "main": "dist/clean_self_webpack_plugin.js",
+  "main": "dist/clean-self-webpack-plugin.js",
   "author": "Chris Blossom",
   "description": "Webpack plugin to delete extraneous files created by Webpack",
   "repository": {
@@ -37,7 +37,6 @@
   },
   "scripts": {
     "clean": "del ./dist/**/*",
-    "clean:packages": "del ./node_modules",
     "build": "npm run clean && NODE_ENV=production babel ./src --out-dir ./dist --source-maps",
     "test": "jest",
     "test:all": "npm run test:webpack2 && npm run test:webpack3 && npm run test:webpack4",
@@ -47,8 +46,9 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier \"**/*.{js,md,json}\" --write",
-    "prepublishOnly": "npm run clean:packages && npm install && npm run format && npm run lint:fix && npm run test:all && npm run build",
-    "precommit": "npm run test && lint-staged"
+    "prepublishOnly": "npm run test:all && npm run build",
+    "precommit": "lint-staged",
+    "prepush": "npm run lint && npm run test:all"
   },
   "lint-staged": {
     "*.{md,json}": [

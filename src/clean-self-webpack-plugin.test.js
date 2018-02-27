@@ -9,7 +9,7 @@ import {
 } from 'fs';
 import webpack from 'webpack';
 import del from 'del';
-import CleanSelfWebpackPlugin from './clean_self_webpack_plugin';
+import CleanSelfWebpackPlugin from './clean-self-webpack-plugin';
 
 const sandboxDir = path.resolve(process.cwd(), '__sandbox__');
 const entryFile = path.resolve(sandboxDir, 'src/entry.js');
