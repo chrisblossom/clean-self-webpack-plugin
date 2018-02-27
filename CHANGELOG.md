@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-*   Support Webpack 4
+## [1.1.0] - 2018-02-26
+
+*   Support Webpack v4
 *   Package updates
 *   Jest config updates
 *   lint-staged fix
