@@ -1,5 +1,8 @@
 # Clean-Self-Webpack-Plugin
 
+[![Linux Build Status](https://img.shields.io/circleci/project/github/chrisblossom/clean-self-webpack-plugin/master.svg?label=linux%20build)](https://circleci.com/gh/chrisblossom/clean-self-webpack-plugin/tree/master)
+[![Windows Build status](https://img.shields.io/appveyor/ci/chrisblossom/clean-self-webpack-plugin/master.svg?label=windows%20build)](https://ci.appveyor.com/project/chrisblossom/clean-self-webpack-plugin/branch/master)
+
 Webpack plugin to delete extraneous files created by Webpack
 
 > NOTE: Webpack v2, v3, and v4 are supported and tested. Webpack v1 is not supported.
