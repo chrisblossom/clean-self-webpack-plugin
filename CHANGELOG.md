@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.1] - 2018-03-19
+
 ### Fixed
 
 *   Fix Windows Tests
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 *   Project optimizations
+*   Package updates
 
 ## [1.1.0] - 2018-02-26
 
