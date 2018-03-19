@@ -7,27 +7,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+*   Fix Windows Tests
+
+### Changed
+
 *   Project optimizations
 
 ## [1.1.0] - 2018-02-26
 
+### Added
+
 *   Support Webpack v4
+
+### Changed
+
 *   Package updates
 *   Jest config updates
 *   lint-staged fix
 
 ## [1.0.5] - 2017-12-07
 
+### Fixed
+
 *   Handle webpack errors - run only on successful webpack compilation
+
+### Changed
+
 *   Package updates
 
 ## [1.0.4] - 2017-10-13
+
+### Changed
 
 *   Use prettierrc.js
 *   Do not save-exact dependencies
 *   Fix npm prepublishOnly (does not work with Yarn)
 
 ## [1.0.3] - 2017-07-04
+
+### Changed
 
 *   Webpack v1 officially unsupported
 *   package.json peerDependencies

@@ -9,6 +9,7 @@ import {
 } from 'fs';
 import webpack from 'webpack';
 import del from 'del';
+import slash from 'slash';
 import CleanSelfWebpackPlugin from './clean-self-webpack-plugin';
 
 const sandboxDir = path.resolve(process.cwd(), '__sandbox__');
@@ -121,7 +122,7 @@ function getBuildFiles(rootDir) {
         }, []);
     };
 
-    const files = getFiles(rootDir);
+    const files = getFiles(rootDir).map((file) => slash(file));
 
     return files;
 }
