@@ -1,20 +1,20 @@
-# Clean-Self-Webpack-Plugin
+# clean-self-webpack-plugin
 
 [![Linux Build Status](https://img.shields.io/circleci/project/github/chrisblossom/clean-self-webpack-plugin/master.svg?label=linux%20build)](https://circleci.com/gh/chrisblossom/clean-self-webpack-plugin/tree/master)
 [![Windows Build status](https://img.shields.io/appveyor/ci/chrisblossom/clean-self-webpack-plugin/master.svg?label=windows%20build)](https://ci.appveyor.com/project/chrisblossom/clean-self-webpack-plugin/branch/master)
 
 Webpack plugin to delete extraneous files created by Webpack
 
-> NOTE: Webpack v2, v3, and v4 are supported and tested. Webpack v1 is not supported.
+> NOTE: Node v6+ and Webpack v2+ are supported and tested.
 
 ## About
 
 By default, this plugin will only remove files created by Webpack after compilation has completed.
-Although it can be configured to remove other files, it is not recommended.
+Zero config required. Although it can be configured to remove other files, it is not recommended.
 
 ## Installation
 
-`yarn add --dev clean-self-webpack-plugin` / `npm install --save-dev clean-self-webpack-plugin`
+`npm install --save-dev clean-self-webpack-plugin`
 
 ## Usage
 
@@ -33,7 +33,8 @@ const outputPath = path.resolve(process.cwd(), 'build');
  *
  * Popular existing packages:
  * https://github.com/isaacs/rimraf
- * https://github.com/sindresorhus/del -- I prefer this one, great glob support and has CLI (del-cli package)
+ * https://github.com/sindresorhus/del
+ *     -- I prefer this one, great glob support and has CLI (del-cli package)
  * https://github.com/jprichardson/node-fs-extra
  *
  */
@@ -75,11 +76,13 @@ new CleanSelfWebpackPlugin({
      *
      * Notes on the below options customPatterns and initialPatterns:
      *
-     * Neither of these options are recommended. Use only if you know what you are doing.
+     * Neither of these options are recommended.
+     * Use only if you know what you are doing.
      *
      * They are unsafe...so test initially with dryRun: true.
      *
-     * Relative to Webpack's output.path directory. If outside of webpack's output.path directory, use path.resolve(process.cwd(), '')
+     * Relative to Webpack's output.path directory.
+     * If outside of webpack's output.path directory, use path.resolve(process.cwd(), '')
      *
      * These options extend del's pattern matching API.
      * See https://github.com/sindresorhus/del#patterns for pattern matching documentation
@@ -88,7 +91,8 @@ new CleanSelfWebpackPlugin({
     /**
      * Custom pattern matching
      *
-     * Removes files on after every build that match this pattern. Used for files that are not created directly by Webpack.
+     * Removes files on after every build that match this pattern.
+     * Used for files that are not created directly by Webpack.
      *
      * default: disabled
      */
