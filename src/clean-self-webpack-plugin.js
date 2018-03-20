@@ -128,8 +128,9 @@ class CleanSelfWebpackPlugin {
          * (relies on del's cwd: outputPath option)
          */
         const staleFiles = this.currentAssets.filter((previousAsset) => {
-            // .includes is not supported without a polyfill
-            return assets.indexOf(previousAsset) === -1;
+            const assetCurrent = assets.includes(previousAsset) === false;
+
+            return assetCurrent;
         });
 
         /**

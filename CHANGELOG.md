@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Removed
+
+*   Support for node v4
+
 ## [1.1.1] - 2018-03-19
 
 ### Fixed
