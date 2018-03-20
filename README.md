@@ -27,14 +27,16 @@ import CleanSelfWebpackPlugin from 'clean-self-webpack-plugin';
 const outputPath = path.resolve(process.cwd(), 'build');
 
 /*
- * Remove project files before webpack is loaded. Be sure it is not async.
+ * Remove project files before webpack is loaded.
+ * Be sure it is not async.
  *
- * It is HIGHLY recommended to handle the initial build directory clean outside of this plugin / webpack.
+ * It is HIGHLY recommended to handle the initial
+ * build directory clean outside of this plugin / webpack.
  *
  * Popular existing packages:
  * https://github.com/isaacs/rimraf
  * https://github.com/sindresorhus/del
- *     -- I prefer this one, great glob support and has CLI (del-cli package)
+ *    -- I prefer this one, great glob support and has CLI (del-cli package)
  * https://github.com/jprichardson/node-fs-extra
  *
  */
@@ -82,10 +84,12 @@ new CleanSelfWebpackPlugin({
      * They are unsafe...so test initially with dryRun: true.
      *
      * Relative to Webpack's output.path directory.
-     * If outside of webpack's output.path directory, use path.resolve(process.cwd(), '')
+     * If outside of webpack's output.path directory,
+     *    use path.resolve(process.cwd(), '')
      *
      * These options extend del's pattern matching API.
-     * See https://github.com/sindresorhus/del#patterns for pattern matching documentation
+     * See https://github.com/sindresorhus/del#patterns
+     *    for pattern matching documentation
      */
 
     /**
@@ -101,7 +105,8 @@ new CleanSelfWebpackPlugin({
     /**
      * Removes files once prior to Webpack compilation
      *
-     * Again, this should be handled outside of Webpack. See Usage example.
+     * Again, this should be handled outside of Webpack.
+     * See Usage example.
      *
      * NOTE: customPatterns ARE included with this
      *
