@@ -3,8 +3,7 @@
 'use strict';
 
 module.exports = {
-    rootDir: 'src',
-    moduleDirectories: ['node_modules', 'src'],
+    moduleDirectories: ['node_modules'],
     testEnvironment: 'node',
     collectCoverage: false,
     coveragePathIgnorePatterns: ['/__sandbox__/'],

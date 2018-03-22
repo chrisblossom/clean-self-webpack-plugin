@@ -1,6 +1,7 @@
 node_modules
 /dist
 /__sandbox__
+/coverage
 .idea
 .vscode
 .DS_Store

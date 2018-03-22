@@ -1,7 +1,8 @@
 # clean-self-webpack-plugin
 
 [![Linux Build Status](https://img.shields.io/circleci/project/github/chrisblossom/clean-self-webpack-plugin/master.svg?label=linux%20build)](https://circleci.com/gh/chrisblossom/clean-self-webpack-plugin/tree/master)
-[![Windows Build status](https://img.shields.io/appveyor/ci/chrisblossom/clean-self-webpack-plugin/master.svg?label=windows%20build)](https://ci.appveyor.com/project/chrisblossom/clean-self-webpack-plugin/branch/master)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/chrisblossom/clean-self-webpack-plugin/master.svg?label=windows%20build)](https://ci.appveyor.com/project/chrisblossom/clean-self-webpack-plugin/branch/master)
+[![Coveralls Github Branch](https://img.shields.io/coveralls/github/chrisblossom/clean-self-webpack-plugin/master.svg)](https://coveralls.io/github/chrisblossom/clean-self-webpack-plugin?branch=master)
 
 Webpack plugin to delete extraneous files created by Webpack
 

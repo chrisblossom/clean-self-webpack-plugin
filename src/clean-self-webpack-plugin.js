@@ -55,6 +55,7 @@ class CleanSelfWebpackPlugin {
         const hooks = compiler.hooks;
 
         if (this.options.initialPatterns.length !== 0) {
+            /* istanbul ignore next */
             if (hooks) {
                 hooks.compile.tap('clean-self-webpack-plugin', () => {
                     this.handleInitial({ outputPath });
@@ -66,6 +67,7 @@ class CleanSelfWebpackPlugin {
             }
         }
 
+        /* istanbul ignore next */
         if (hooks) {
             hooks.done.tap('clean-self-webpack-plugin', (stats) => {
                 this.handleDone({ stats, outputPath });

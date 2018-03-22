@@ -21,6 +21,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      # Only run test.ci on node6 until parallel builds are fixed
       - run: npm run test:all
   test-node8:
     docker:
@@ -39,7 +40,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run test:all
+      - run: npm run test:ci
 
 workflows:
   version: 2
