@@ -72,13 +72,13 @@
     "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
     "del-cli": "^1.1.0",
-    "eslint": "^4.19.0",
+    "eslint": "^4.19.1",
     "husky": "^0.14.3",
-    "jest": "^22.4.2",
+    "jest": "^22.4.3",
     "lint-staged": "^7.0.0",
     "prettier": "^1.11.1",
     "slash": "^1.0.0",
-    "webpack": "^4.0.1"
+    "webpack": "^4.2.0"
   },
   "dependencies": {
     "del": "^3.0.0"
