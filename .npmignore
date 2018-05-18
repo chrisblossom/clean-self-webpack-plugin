@@ -1,8 +1,0 @@
-node_modules
-.DS_Store
-*.swp
-*.log
-*.ignore
-.idea
-.vscode
-__sandbox__

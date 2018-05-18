@@ -1,17 +1,7 @@
 {
   "name": "clean-self-webpack-plugin",
   "version": "2.0.1",
-  "main": "dist/clean-self-webpack-plugin.js",
-  "author": "Chris Blossom",
   "description": "Webpack plugin to delete extraneous files created by Webpack",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin/issues"
-  },
-  "license": "MIT",
   "keywords": [
     "webpack",
     "plugin",
@@ -31,54 +21,63 @@
     "del",
     "node"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chrisblossom/clean-self-webpack-plugin/issues"
+  },
+  "author": "Chris Blossom",
   "engines": {
     "node": ">=6.9.0",
-    "npm": ">=3.0.0"
+    "npm": ">=3.10.10",
+    "yarn": ">=1.6.0"
   },
+  "devEngines": {
+    "node": ">=8.9.0",
+    "npm": ">=5.5.1"
+  },
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/clean-self-webpack-plugin.js",
   "scripts": {
-    "clean": "del ./dist/**/*",
-    "build": "npm run clean && NODE_ENV=production babel src -d dist --ignore test.js,__sandbox__/ --source-maps",
-    "test": "jest",
-    "test:all": "npm run test:webpack2 && npm run test:webpack3 && npm run test:webpack4",
-    "test:webpack2": "npm i --no-save webpack@2 && jest",
-    "test:webpack3": "npm i --no-save webpack@3 && jest",
-    "test:webpack4": "npm i --no-save webpack@4 && jest",
-    "test:ci": "npm run test:all && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "prettier \"**/*.{js,md,json}\" --write",
-    "prepublishOnly": "npm run test:all && npm run build",
-    "precommit": "lint-staged"
+    "build": "backtrack build --production",
+    "check-all": "backtrack check-all",
+    "clean": "backtrack clean",
+    "dev": "backtrack dev --development",
+    "format": "backtrack format",
+    "lint": "backtrack lint",
+    "lint.fix": "backtrack lint.fix",
+    "precommit": "backtrack precommit",
+    "prepublishOnly": "backtrack prepublishOnly",
+    "prepush": "backtrack prepush",
+    "test": "backtrack test",
+    "test.all": "backtrack test.all",
+    "test.ci": "backtrack test.ci",
+    "test.ci-pretest": "backtrack test.ci-pretest",
+    "test.update": "jest --updateSnapshot",
+    "test.webpack2": "backtrack test.webpack2",
+    "test.webpack3": "backtrack test.webpack3",
+    "test.webpack4": "backtrack test.webpack4"
   },
   "lint-staged": {
-    "*.{md,json}": [
+    "*.{js,md,json}": [
       "prettier --write",
-      "git add"
-    ],
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
       "git add"
     ]
   },
-  "peerDependencies": {
-    "webpack": "^2.0.0-0 || ^3.0.0-0 || ^4.0.0-0"
+  "babel": {
+    "presets": [
+      "./.babelrc.js"
+    ]
   },
   "devDependencies": {
-    "@chrisblossom/eslint-config": "^1.0.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "coveralls": "^3.0.0",
-    "del-cli": "^1.1.0",
-    "eslint": "^4.19.1",
-    "husky": "^0.14.3",
-    "jest": "^22.4.3",
-    "lint-staged": "^7.0.0",
-    "prettier": "^1.11.1",
-    "slash": "^1.0.0",
-    "webpack": "^4.2.0"
+    "@backtrack/core": "^0.1.17",
+    "@backtrack/preset-node-module": "^0.1.11",
+    "webpack": "^4.8.3"
   },
   "dependencies": {
     "del": "^3.0.0"

@@ -1,5 +1,6 @@
 # clean-self-webpack-plugin
 
+[![npm](https://img.shields.io/npm/v/clean-self-webpack-plugin.svg?label=npm%20version)](https://www.npmjs.com/package/clean-self-webpack-plugin)
 [![Linux Build Status](https://img.shields.io/circleci/project/github/chrisblossom/clean-self-webpack-plugin/master.svg?label=linux%20build)](https://circleci.com/gh/chrisblossom/clean-self-webpack-plugin/tree/master)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/chrisblossom/clean-self-webpack-plugin/master.svg?label=windows%20build)](https://ci.appveyor.com/project/chrisblossom/clean-self-webpack-plugin/branch/master)
 [![Coveralls Github Branch](https://img.shields.io/coveralls/github/chrisblossom/clean-self-webpack-plugin/master.svg)](https://coveralls.io/github/chrisblossom/clean-self-webpack-plugin?branch=master)
