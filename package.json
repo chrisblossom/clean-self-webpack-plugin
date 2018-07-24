@@ -54,10 +54,7 @@
     "test.all": "backtrack test.all",
     "test.ci": "backtrack test.ci",
     "test.ci-pretest": "backtrack test.ci-pretest",
-    "test.update": "jest --updateSnapshot",
-    "test.webpack2": "backtrack test.webpack2",
-    "test.webpack3": "backtrack test.webpack3",
-    "test.webpack4": "backtrack test.webpack4"
+    "test.update": "jest --updateSnapshot"
   },
   "lint-staged": {
     "*.{js,md,json}": [

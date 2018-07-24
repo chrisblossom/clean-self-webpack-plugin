@@ -1,38 +1,57 @@
 'use strict';
 
+function getWebpackTestTasks({ ci = false } = {}) {
+    const supported = ['2', '3', '4'];
+
+    const tasks = supported.reduce((acc, version) => {
+        const result = [
+            ...acc,
+            {
+                name: `install webpack ${version}`,
+                task: `npm install --no-save webpack@${version}`,
+            },
+        ];
+
+        if (ci === false) {
+            result.push({
+                name: 'test',
+                task: 'jest',
+            });
+
+            return result;
+        }
+
+        result.push({
+            name: 'test',
+            task: 'jest --coverage --maxWorkers 2',
+        });
+
+        result.push({
+            name: 'codecov',
+            task: 'codecov',
+        });
+
+        return result;
+    }, []);
+
+    return tasks;
+}
+
 module.exports = {
     presets: [['@backtrack/node-module', { flow: false }]],
 
     packageJson: {
         scripts: {
+            // jest --watch is broken here because of sandbox directory updates
             'test.watch': null,
         },
     },
 
-    'test.ci-pretest': ['backtrack test.all'],
+    'test.ci': [false, ...getWebpackTestTasks({ ci: true })],
 
     files: {
         ignoreUpdates: ['.gitignore'],
     },
 
-    'test.all': [
-        'backtrack test.webpack2',
-        'backtrack test.webpack3',
-        'backtrack test.webpack4',
-    ],
-
-    'test.webpack2': [
-        { name: 'install webpack 2', task: 'npm install --no-save webpack@2' },
-        'backtrack test',
-    ],
-
-    'test.webpack3': [
-        { name: 'install webpack 3', task: 'npm install --no-save webpack@3' },
-        'backtrack test',
-    ],
-
-    'test.webpack4': [
-        { name: 'install webpack 4', task: 'npm install --no-save webpack@4' },
-        'backtrack test',
-    ],
+    'test.all': getWebpackTestTasks({ ci: false }),
 };

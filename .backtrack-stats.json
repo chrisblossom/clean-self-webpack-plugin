@@ -61,10 +61,7 @@
             "test.ci": "backtrack test.ci",
             "test.ci-pretest": "backtrack test.ci-pretest",
             "test.update": "jest --updateSnapshot",
-            "test.watch": null,
-            "test.webpack2": "backtrack test.webpack2",
-            "test.webpack3": "backtrack test.webpack3",
-            "test.webpack4": "backtrack test.webpack4"
+            "test.watch": null
         }
     }
 }
