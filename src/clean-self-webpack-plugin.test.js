@@ -245,16 +245,16 @@ describe('CleanSelfWebpackPlugin', () => {
 
         compiler.run(() => {
             expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                'js/chunks/2.bundle.js',
-                'js/chunks/1.bundle.js',
                 'js/bundle.js',
+                'js/chunks/1.bundle.js',
+                'js/chunks/2.bundle.js',
             ]);
 
             createSrcBundle(2);
             compiler.run(() => {
                 expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    'js/chunks/1.bundle.js',
                     'js/bundle.js',
+                    'js/chunks/1.bundle.js',
                 ]);
 
                 expect(getBuildFiles(buildDir)).toEqual([

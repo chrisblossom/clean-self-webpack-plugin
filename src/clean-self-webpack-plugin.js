@@ -138,7 +138,7 @@ class CleanSelfWebpackPlugin {
         /**
          * Save assets for next compilation
          */
-        this.currentAssets = assets;
+        this.currentAssets = assets.sort();
 
         /**
          * Do nothing if there aren't any files to delete and customPatterns is not defined
