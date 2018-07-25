@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.3] - 2018-07-25
+
 ### Fixed
 
--   Removed `yarn` from `package.json` `engines`
+-   Removed `yarn` from `package.json` `engines` ([#1](https://github.com/chrisblossom/clean-self-webpack-plugin/issues/1))
 
 ## [2.0.2] - 2018-07-24
 
