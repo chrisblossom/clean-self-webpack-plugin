@@ -32,8 +32,7 @@
   "author": "Chris Blossom",
   "engines": {
     "node": ">=6.9.0",
-    "npm": ">=3.10.10",
-    "yarn": ">=1.6.0"
+    "npm": ">=3.10.10"
   },
   "files": [
     "dist/"
@@ -68,8 +67,8 @@
     ]
   },
   "devDependencies": {
-    "@backtrack/core": "^0.1.18",
-    "@backtrack/preset-node-module": "^0.2.0",
+    "@backtrack/core": "^0.1.20",
+    "@backtrack/preset-node-module": "^0.2.1",
     "webpack": "^4.16.2"
   },
   "dependencies": {

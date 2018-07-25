@@ -7,9 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+-   Removed `yarn` from `package.json` `engines`
+
+## [2.0.2] - 2018-07-24
+
 ### Changed
 
+-   Sort `currentAssets` array
+-   Use codecov and submit all webpack versions for coverage
 -   Internal: Use [`backtrack`](https://github.com/chrisblossom/backtrack) to manage build environment
+
+## [2.0.1] - 2018-03-21
+
+### Added
+
+-   Add coveralls
+
+### Changed
+
+-   Package updates
 
 ## [2.0.0] - 2018-03-19
 
