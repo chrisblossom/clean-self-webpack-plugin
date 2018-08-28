@@ -10,30 +10,38 @@
 'use strict';
 
 const Backtrack = require('@backtrack/core');
+const nodeVersion = require('@backtrack/preset-node-module/lib/utils/node-version');
+const getPackageId = require('@backtrack/preset-node-module/lib/utils/get-package-id');
 
-const { configManager, pkg } = new Backtrack();
+const { pkg, configManager } = new Backtrack();
 
-const packageId = '@backtrack/preset-node-module';
+const packageId = getPackageId();
+const backtrackId = '@backtrack/preset-node-module';
 
 const babel = {
     presets: [
         [
-            pkg.resolve(packageId, 'babel-preset-env'),
+            pkg.resolve(backtrackId, '@babel/preset-env'),
             {
                 targets: {
-                    node: '6.9.0',
+                    node: nodeVersion,
                 },
-                useBuiltIns: true,
+                useBuiltIns: 'entry',
             },
         ],
     ],
     plugins: [
-        pkg.resolve(packageId, 'babel-plugin-dynamic-import-node'),
-        pkg.resolve(packageId, 'babel-plugin-transform-object-rest-spread'),
-        [
-            pkg.resolve(packageId, 'babel-plugin-transform-class-properties'),
-            { spec: true },
-        ],
+        pkg.resolve(backtrackId, 'babel-plugin-dynamic-import-node'),
+        pkg.resolve(backtrackId, '@babel/plugin-proposal-class-properties'),
+        pkg.resolve(backtrackId, '@babel/plugin-transform-strict-mode'),
+    ],
+    overrides: [
+        {
+            test: [`./src/${packageId}.js`, `./src/${packageId}.ts`],
+            plugins: [
+                pkg.resolve(backtrackId, 'babel-plugin-add-module-exports'),
+            ],
+        },
     ],
 };
 

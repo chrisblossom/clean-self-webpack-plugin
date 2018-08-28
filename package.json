@@ -40,36 +40,24 @@
   "main": "dist/clean-self-webpack-plugin.js",
   "scripts": {
     "build": "backtrack build --production",
-    "check-all": "backtrack check-all",
     "clean": "backtrack clean",
     "dev": "backtrack dev --development",
     "format": "backtrack format",
+    "git-pre-commit": "backtrack git-pre-commit",
+    "git-pre-push": "backtrack git-pre-push",
     "lint": "backtrack lint",
     "lint.fix": "backtrack lint.fix",
-    "precommit": "backtrack precommit",
     "prepublishOnly": "backtrack prepublishOnly",
-    "prepush": "backtrack prepush",
     "test": "backtrack test",
     "test.all": "backtrack test.all",
     "test.ci": "backtrack test.ci",
     "test.ci-pretest": "backtrack test.ci-pretest",
     "test.update": "jest --updateSnapshot"
   },
-  "lint-staged": {
-    "*.{js,md,json}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "./.babelrc.js"
-    ]
-  },
   "devDependencies": {
-    "@backtrack/core": "^0.1.20",
-    "@backtrack/preset-node-module": "^0.2.1",
-    "webpack": "^4.16.2"
+    "@backtrack/core": "^0.1.23",
+    "@backtrack/preset-node-module": "^0.5.2",
+    "webpack": "^4.28.4"
   },
   "dependencies": {
     "del": "^3.0.0"

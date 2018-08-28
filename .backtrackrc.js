@@ -38,7 +38,7 @@ function getWebpackTestTasks({ ci = false } = {}) {
 }
 
 module.exports = {
-    presets: [['@backtrack/node-module', { flow: false }]],
+    presets: [['@backtrack/node-module', { babel: true }]],
 
     packageJson: {
         scripts: {
