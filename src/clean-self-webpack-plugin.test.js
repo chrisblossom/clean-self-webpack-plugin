@@ -9,7 +9,16 @@ import {
 } from 'fs';
 import webpack from 'webpack';
 import del from 'del';
-import CleanSelfWebpackPlugin from './clean-self-webpack-plugin';
+
+function CleanSelfWebpackPlugin(...args) {
+    jest.resetModules();
+
+    const CleanSelfWebpackPluginActual = require('./clean-self-webpack-plugin');
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPluginActual(...args);
+
+    return cleanSelfWebpackPlugin;
+}
 
 const sandboxDir = path.resolve(process.cwd(), '__sandbox__');
 const entryFile = path.resolve(sandboxDir, 'src/entry.js');
