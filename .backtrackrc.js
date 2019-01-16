@@ -23,7 +23,7 @@ function getWebpackTestTasks({ ci = false } = {}) {
 
         result.push({
             name: 'test',
-            task: 'jest --coverage --maxWorkers 2',
+            task: 'jest --ci --no-cache --coverage --maxWorkers 2',
         });
 
         result.push({
@@ -40,18 +40,7 @@ function getWebpackTestTasks({ ci = false } = {}) {
 module.exports = {
     presets: [['@backtrack/node-module', { typescript: true }]],
 
-    packageJson: {
-        scripts: {
-            // jest --watch is broken here because of sandbox directory updates
-            'test.watch': null,
-        },
-    },
-
     'test.ci': [false, ...getWebpackTestTasks({ ci: true })],
-
-    files: {
-        ignoreUpdates: ['.gitignore'],
-    },
 
     'test.all': getWebpackTestTasks({ ci: false }),
 };

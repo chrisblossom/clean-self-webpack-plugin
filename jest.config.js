@@ -9,6 +9,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const Backtrack = require('@backtrack/core');
 
 const { configManager, pkg } = new Backtrack();
@@ -51,6 +52,16 @@ const jest = {
      */
     restoreMocks: true,
 };
+
+const jestSetupExists = fs.existsSync('./jest.setup.js');
+if (jestSetupExists === true) {
+    jest.setupFiles = ['<rootDir>/jest.setup.js'];
+}
+
+const jestSetupTestExists = fs.existsSync('./jest.setup-test.js');
+if (jestSetupTestExists === true) {
+    jest.setupTestFrameworkScriptFile = '<rootDir>/jest.setup-test.js';
+}
 
 module.exports = configManager({
     namespace: 'jest',

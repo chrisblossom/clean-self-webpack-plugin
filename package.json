@@ -53,6 +53,7 @@
     "test.ci": "backtrack test.ci",
     "test.ci-pretest": "backtrack test.ci-pretest",
     "test.update": "jest --updateSnapshot",
+    "test.watch": "jest --watch",
     "typescript": "backtrack typescript"
   },
   "peerDependencies": {
@@ -60,12 +61,13 @@
   },
   "devDependencies": {
     "@backtrack/core": "^0.1.23",
-    "@backtrack/preset-node-module": "^0.5.2",
+    "@backtrack/preset-node-module": "^0.5.3",
     "@types/del": "^3.0.1",
     "@types/jest": "^23.3.12",
     "@types/node": "^10.12.18",
-    "@types/webpack": "^4.4.22",
-    "read-dir-deep": "^4.0.2",
+    "@types/util.promisify": "^1.0.0",
+    "@types/webpack": "^4.4.23",
+    "temp-sandbox": "^1.0.15",
     "typescript": "^3.2.2",
     "webpack": "^4.28.4"
   },
