@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+-   Migrate to Typescript
 -   Update backtrack
 
 ## [2.0.3] - 2018-07-25

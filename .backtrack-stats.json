@@ -21,8 +21,11 @@
             "CHANGELOG.md": "ignoreUpdates",
             "README.md": "ignoreUpdates",
             "appveyor.yml": "251406424b8cb49b1a8858ef7eb521ae57856964625daed85b591692e8f98e15",
+            "global.d.ts": "ignoreUpdates",
             "jest.config.js": "89b921f7f379662d979221ac8124f85a5c2443a66f5d6922babf18e67b0f5727",
-            "src/clean-self-webpack-plugin.js": "ignoreUpdates",
+            "src/clean-self-webpack-plugin.ts": "ignoreUpdates",
+            "tsconfig.declaration.json": "f29b914b471d9a5bbb231fa43c87235a8f44271edd11436f6ccec779e9e55957",
+            "tsconfig.json": "afecd787ab1919b8d4f0f9873f1f3b2ef989b83fc7cc7c3348cefb0a219cd104",
             "wallaby.config.js": "42d67f79ccf8a0d7ab342ad9698e59f29db895a1cc491bb55d9fafccdadbb24c"
         }
     },
@@ -50,7 +53,8 @@
             "test.ci": "backtrack test.ci",
             "test.ci-pretest": "backtrack test.ci-pretest",
             "test.update": "jest --updateSnapshot",
-            "test.watch": null
+            "test.watch": null,
+            "typescript": "backtrack typescript"
         }
     }
 }

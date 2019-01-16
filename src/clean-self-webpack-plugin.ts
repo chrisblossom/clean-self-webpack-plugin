@@ -1,8 +1,22 @@
+import { Compiler, Stats } from 'webpack';
 import path from 'path';
 import del from 'del';
 
+type Options = {
+    dryRun: boolean;
+    verbose: boolean;
+    customPatterns: string[];
+    initialPatterns: string[];
+};
+
 class CleanSelfWebpackPlugin {
-    constructor(options = {}) {
+    private readonly options: Options;
+
+    private currentAssets: string[];
+    private initialClean: boolean;
+    private outputPath?: string;
+
+    constructor(options: Partial<Options> = {}) {
         this.options = {
             /**
              * Simulate the removal of files
@@ -39,13 +53,24 @@ class CleanSelfWebpackPlugin {
          */
         this.initialClean = false;
 
+        this.outputPath = undefined;
+
         this.handleInitial = this.handleInitial.bind(this);
         this.handleDone = this.handleDone.bind(this);
         this.removeFiles = this.removeFiles.bind(this);
     }
 
-    apply(compiler) {
-        const outputPath = compiler.options.output.path;
+    apply(compiler: Compiler) {
+        if (!compiler.options.output || !compiler.options.output.path) {
+            // eslint-disable-next-line no-console
+            console.warn(
+                `clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...`,
+            );
+
+            return;
+        }
+
+        this.outputPath = compiler.options.output.path;
 
         /**
          * webpack 4+ comes with a new plugin system.
@@ -57,22 +82,22 @@ class CleanSelfWebpackPlugin {
         if (this.options.initialPatterns.length !== 0) {
             if (hooks) {
                 hooks.compile.tap('clean-self-webpack-plugin', () => {
-                    this.handleInitial({ outputPath });
+                    this.handleInitial();
                 });
             } else {
                 compiler.plugin('compile', () => {
-                    this.handleInitial({ outputPath });
+                    this.handleInitial();
                 });
             }
         }
 
         if (hooks) {
             hooks.done.tap('clean-self-webpack-plugin', (stats) => {
-                this.handleDone({ stats, outputPath });
+                this.handleDone(stats);
             });
         } else {
             compiler.plugin('done', (stats) => {
-                this.handleDone({ stats, outputPath });
+                this.handleDone(stats);
             });
         }
     }
@@ -84,23 +109,20 @@ class CleanSelfWebpackPlugin {
      *
      * Warning: It is highly recommended to clean your build directory outside of webpack to minimize unexpected behavior.
      */
-    handleInitial({ outputPath }) {
+    handleInitial() {
         if (this.initialClean) {
             return;
         }
 
         this.initialClean = true;
 
-        this.removeFiles({
-            outputPath,
-            patterns: [
-                ...this.options.initialPatterns,
-                ...this.options.customPatterns,
-            ],
-        });
+        this.removeFiles([
+            ...this.options.initialPatterns,
+            ...this.options.customPatterns,
+        ]);
     }
 
-    handleDone({ stats, outputPath }) {
+    handleDone(stats: Stats) {
         /**
          * Do nothing if there is a webpack error
          */
@@ -118,7 +140,7 @@ class CleanSelfWebpackPlugin {
         /**
          * Fetch Webpack's output asset files
          */
-        const assets = stats.toJson().assets.map((asset) => {
+        const assets = stats.toJson().assets.map((asset: { name: string }) => {
             return asset.name;
         });
 
@@ -151,16 +173,13 @@ class CleanSelfWebpackPlugin {
         /**
          * Merge customPatters with stale files.
          */
-        this.removeFiles({
-            outputPath,
-            patterns: [...staleFiles, ...this.options.customPatterns],
-        });
+        this.removeFiles([...staleFiles, ...this.options.customPatterns]);
     }
 
-    removeFiles({ outputPath, patterns }) {
+    removeFiles(patterns: string[]) {
         const deleted = del.sync(patterns, {
             // Change context to build directory
-            cwd: outputPath,
+            cwd: this.outputPath,
             dryRun: this.options.dryRun,
         });
 
@@ -187,7 +206,4 @@ class CleanSelfWebpackPlugin {
     }
 }
 
-/**
- * Use module.exports so we don't have to worry about require().default
- */
-module.exports = CleanSelfWebpackPlugin;
+export default CleanSelfWebpackPlugin;

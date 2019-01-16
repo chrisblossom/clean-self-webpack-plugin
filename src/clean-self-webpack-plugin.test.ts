@@ -1,24 +1,12 @@
 import path from 'path';
-import {
-    appendFileSync,
-    existsSync,
-    lstatSync,
-    mkdirSync,
-    readdirSync,
-    writeFileSync,
-} from 'fs';
+import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import webpack from 'webpack';
 import del from 'del';
+import readDirDeep from 'read-dir-deep';
+import _CleanSelfWebpackPlugin from './clean-self-webpack-plugin';
 
-function CleanSelfWebpackPlugin(...args) {
-    jest.resetModules();
-
-    const CleanSelfWebpackPluginActual = require('./clean-self-webpack-plugin');
-
-    const cleanSelfWebpackPlugin = new CleanSelfWebpackPluginActual(...args);
-
-    return cleanSelfWebpackPlugin;
-}
+// temporary solution to fix testing of private methods
+const CleanSelfWebpackPlugin: any = _CleanSelfWebpackPlugin;
 
 const sandboxDir = path.resolve(process.cwd(), '__sandbox__');
 const entryFile = path.resolve(sandboxDir, 'src/entry.js');
@@ -102,39 +90,6 @@ function resetSandbox() {
     createSrcBundle(1);
 }
 
-/**
- * returns a recursive flattened list of files inside a directory
- *
- * Example:
- * [
- *     'js/bundle.js',
- *     'js/chunks/0.bundle.js',
- *     'static1.js',
- *     'static2.txt',
- * ]
- */
-function getBuildFiles(rootDir) {
-    const getFiles = (dir, basePath = '.') => {
-        return readdirSync(dir).reduce((acc, file) => {
-            const pathname = path.resolve(rootDir, basePath, file);
-
-            if (lstatSync(pathname).isDirectory()) {
-                const nestedDir = getFiles(pathname, path.join(basePath, file));
-
-                return [...acc, ...nestedDir];
-            }
-
-            const relativePath = path.join(basePath, file);
-
-            return [...acc, relativePath];
-        }, []);
-    };
-
-    const files = getFiles(rootDir).map((file) => file.replace(/\\/g, '/'));
-
-    return files;
-}
-
 function createSandbox() {
     if (existsSync(sandboxDir) === false) {
         mkdirSync(sandboxDir);
@@ -150,7 +105,7 @@ function createSandbox() {
 }
 
 describe('CleanSelfWebpackPlugin', () => {
-    let consoleSpy;
+    let consoleSpy: any;
 
     beforeAll(() => {
         createSandbox();
@@ -224,7 +179,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                     'static2.txt',
@@ -266,7 +221,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'js/chunks/1.bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     'js/bundle.js',
                     'js/chunks/1.bundle.js',
                     'static1.js',
@@ -307,7 +262,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                     'static2.txt',
@@ -320,7 +275,7 @@ describe('CleanSelfWebpackPlugin', () => {
                         'bundle.js',
                     ]);
 
-                    expect(getBuildFiles(buildDir)).toEqual([
+                    expect(readDirDeep.sync(buildDir)).toEqual([
                         '1.bundle.js',
                         'bundle.js',
                         'static1.js',
@@ -363,7 +318,7 @@ describe('CleanSelfWebpackPlugin', () => {
                 'bundle.js',
             ]);
 
-            expect(getBuildFiles(buildDir)).toEqual([
+            expect(readDirDeep.sync(buildDir)).toEqual([
                 '1.bundle.js',
                 'bundle.js',
                 'static1.js',
@@ -375,7 +330,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                 ]);
@@ -420,7 +375,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     '1.bundle.js',
                     'bundle.js',
                     'static1.js',
@@ -501,7 +456,7 @@ describe('CleanSelfWebpackPlugin', () => {
     test('handles the initialPatterns option (only calls once)', (done) => {
         createSrcBundle(1);
 
-        const initialBuildFiles = getBuildFiles(buildDir);
+        const initialBuildFiles = readDirDeep.sync(buildDir);
         expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -523,7 +478,7 @@ describe('CleanSelfWebpackPlugin', () => {
         compiler.run(() => {
             expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
-            expect(getBuildFiles(buildDir)).toEqual([
+            expect(readDirDeep.sync(buildDir)).toEqual([
                 'bundle.js',
                 'static1.js',
             ]);
@@ -534,7 +489,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     'bundle.js',
                     'static1.js',
                     'static2.txt',
@@ -551,7 +506,7 @@ describe('CleanSelfWebpackPlugin', () => {
     test('does nothing when webpack errors are present', (done) => {
         createSrcBundle(2);
 
-        const initialBuildFiles = getBuildFiles(buildDir);
+        const initialBuildFiles = readDirDeep.sync(buildDir);
         expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
@@ -576,7 +531,7 @@ describe('CleanSelfWebpackPlugin', () => {
                 'bundle.js',
             ]);
 
-            expect(getBuildFiles(buildDir)).toEqual([
+            expect(readDirDeep.sync(buildDir)).toEqual([
                 '1.bundle.js',
                 'bundle.js',
                 'static1.js',
@@ -602,7 +557,7 @@ describe('CleanSelfWebpackPlugin', () => {
                     'bundle.js',
                 ]);
 
-                expect(getBuildFiles(buildDir)).toEqual([
+                expect(readDirDeep.sync(buildDir)).toEqual([
                     '1.bundle.js',
                     'bundle.js',
                     'static1.js',
