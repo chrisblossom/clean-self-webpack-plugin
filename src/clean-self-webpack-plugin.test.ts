@@ -1,5 +1,6 @@
 import { Configuration, Stats } from 'webpack';
 import TempSandbox from 'temp-sandbox';
+import webpackVersion from '../utils/webpack-version';
 
 function webpack(options: Configuration = {}) {
     const webpackActual = require('webpack');
@@ -39,7 +40,7 @@ class _CleanSelfWebpackPlugin {
 const CleanSelfWebpackPlugin: any = _CleanSelfWebpackPlugin;
 
 const sandbox = new TempSandbox();
-const entryFile = 'src/entry.js';
+const entryFile = 'src/index.js';
 const entryFileFull = sandbox.path.resolve(entryFile);
 const outputPath = 'dist';
 const outputPathFull = sandbox.path.resolve(outputPath);
@@ -544,5 +545,47 @@ describe('CleanSelfWebpackPlugin', () => {
             'static1.js',
             'static2.txt',
         ]);
+    });
+
+    describe('webpack >= 4 only', () => {
+        const webpackMajor =
+            webpackVersion !== null
+                ? parseInt(webpackVersion.split('.')[0], 10)
+                : null;
+
+        if (webpackMajor !== null && webpackMajor >= 4) {
+            test('works without config', async () => {
+                await createSrcBundle(2);
+
+                const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+                const compiler = webpack({
+                    plugins: [cleanSelfWebpackPlugin],
+                });
+
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+                await compiler.run();
+
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    '1.js',
+                    'main.js',
+                ]);
+
+                await createSrcBundle(1);
+
+                await compiler.run();
+
+                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                    'main.js',
+                ]);
+
+                expect(await sandbox.getFileList(outputPathFull)).toEqual([
+                    'main.js',
+                    'static1.js',
+                    'static2.txt',
+                ]);
+            });
+        }
     });
 });

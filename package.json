@@ -61,12 +61,14 @@
   },
   "devDependencies": {
     "@backtrack/core": "^0.1.23",
-    "@backtrack/preset-node-module": "^0.5.3",
+    "@backtrack/preset-node-module": "^0.5.4",
     "@types/del": "^3.0.1",
     "@types/jest": "^23.3.12",
     "@types/node": "^10.12.18",
+    "@types/read-pkg-up": "^3.0.1",
     "@types/util.promisify": "^1.0.0",
     "@types/webpack": "^4.4.23",
+    "read-pkg-up": "^4.0.0",
     "temp-sandbox": "^1.0.15",
     "typescript": "^3.2.2",
     "webpack": "^4.28.4"

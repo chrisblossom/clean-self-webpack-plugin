@@ -1,5 +1,8 @@
 'use strict';
 
+const log = require('@backtrack/core/dist/utils/log').default;
+const webpackVersion = require('./utils/webpack-version');
+
 function getWebpackTestTasks({ ci = false } = {}) {
     const supported = ['2', '3', '4'];
 
@@ -43,4 +46,30 @@ module.exports = {
     'test.ci': [false, ...getWebpackTestTasks({ ci: true })],
 
     'test.all': getWebpackTestTasks({ ci: false }),
+
+    config: {
+        jest: (config) => {
+            log.info(`webpack version detected: ${webpackVersion}`);
+
+            return config;
+        },
+
+        eslint: {
+            overrides: [
+                {
+                    files: 'utils/**/*.js',
+                    parserOptions: {
+                        sourceType: 'script',
+                    },
+                    rules: {
+                        strict: ['error', 'safe'],
+
+                        'node/no-unsupported-features/es-builtins': 'error',
+                        'node/no-unsupported-features/es-syntax': 'error',
+                        'node/no-unsupported-features/node-builtins': 'error',
+                    },
+                },
+            ],
+        },
+    },
 };
