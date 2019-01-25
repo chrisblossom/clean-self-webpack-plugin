@@ -39,7 +39,7 @@ class _CleanSelfWebpackPlugin {
 // ts-hack
 const CleanSelfWebpackPlugin: any = _CleanSelfWebpackPlugin;
 
-const sandbox = new TempSandbox();
+const sandbox = new TempSandbox({ randomDir: true });
 const entryFile = 'src/index.js';
 const entryFileFull = sandbox.path.resolve(entryFile);
 const outputPath = 'dist';
@@ -118,9 +118,9 @@ describe('CleanSelfWebpackPlugin', () => {
         consoleSpy.mockReset();
     });
 
-    afterAll(async () => {
+    afterAll(() => {
         // delete sandbox and sandbox instance
-        await sandbox.destroySandbox();
+        sandbox.destroySandboxSync();
         process.chdir(cwd);
     });
 
