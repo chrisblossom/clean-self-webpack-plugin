@@ -549,6 +549,59 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
     });
 
+    test('removes map files', async () => {
+        await createSrcBundle(2);
+
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+        const compiler = webpack({
+            entry: entryFileFull,
+            output: {
+                path: outputPathFull,
+                filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
+            },
+            devtool: 'cheap-module-source-map',
+            plugins: [cleanSelfWebpackPlugin],
+        });
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+        await compiler.run();
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+            '1.bundle.js',
+            '1.bundle.js.map',
+            'bundle.js',
+            'bundle.js.map',
+        ]);
+
+        expect(await sandbox.getFileList(outputPathFull)).toEqual([
+            '1.bundle.js',
+            '1.bundle.js.map',
+            'bundle.js',
+            'bundle.js.map',
+            'static1.js',
+            'static2.txt',
+        ]);
+
+        await createSrcBundle(1);
+
+        await compiler.run();
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+            'bundle.js',
+            'bundle.js.map',
+        ]);
+
+        expect(await sandbox.getFileList(outputPathFull)).toEqual([
+            'bundle.js',
+            'bundle.js.map',
+            'static1.js',
+            'static2.txt',
+        ]);
+    });
+
     describe('webpack >= 4 only', () => {
         const webpackMajor =
             webpackVersion !== null
