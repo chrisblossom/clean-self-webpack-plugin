@@ -23,7 +23,7 @@ function webpack(options: Configuration = {}) {
     return { ...compiler, run: runAsync };
 }
 
-// eslint-disable-next-line typescript/class-name-casing
+// eslint-disable-next-line @typescript-eslint/class-name-casing
 class _CleanSelfWebpackPlugin {
     constructor(...args: any) {
         const CleanSelfWebpackPluginActual = require('./clean-self-webpack-plugin');
@@ -36,7 +36,9 @@ class _CleanSelfWebpackPlugin {
     }
 }
 
-// ts-hack
+/**
+ * Silence typescript errors
+ */
 const CleanSelfWebpackPlugin: any = _CleanSelfWebpackPlugin;
 
 const sandbox = new TempSandbox({ randomDir: true });

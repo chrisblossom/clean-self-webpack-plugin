@@ -26,7 +26,7 @@ function getWebpackTestTasks({ ci = false } = {}) {
 
         result.push({
             name: 'test',
-            task: 'jest --ci --no-cache --coverage --maxWorkers 2',
+            task: 'jest --ci --no-cache --coverage --max-workers 2',
         });
 
         result.push({
