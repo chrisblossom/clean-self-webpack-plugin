@@ -32,7 +32,7 @@ function getWebpackTestTasks() {
 
             return result;
         },
-        { ci: [], local: [] },
+        { ci: [], local: [] }
     );
 
     return tasks;

@@ -22,7 +22,7 @@
             "README.md": "ignoreUpdates",
             "appveyor.yml": "251406424b8cb49b1a8858ef7eb521ae57856964625daed85b591692e8f98e15",
             "global.d.ts": "ignoreUpdates",
-            "jest.config.js": "593effcf28fda7ec31763c898d739f665436e659b7976864ce78885282136401",
+            "jest.config.js": "e12a7bf22599c80204f73e366b427a8296f16e8fdd1fda0f09a508935258f870",
             "src/clean-self-webpack-plugin.ts": "ignoreUpdates",
             "tsconfig.declaration.json": "f29b914b471d9a5bbb231fa43c87235a8f44271edd11436f6ccec779e9e55957",
             "tsconfig.json": "afecd787ab1919b8d4f0f9873f1f3b2ef989b83fc7cc7c3348cefb0a219cd104",

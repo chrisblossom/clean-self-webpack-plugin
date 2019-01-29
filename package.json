@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "@backtrack/core": "^0.1.23",
-    "@backtrack/preset-node-module": "^0.5.5",
+    "@backtrack/preset-node-module": "^0.5.6",
     "@types/del": "^3.0.1",
     "@types/jest": "^23.3.13",
-    "@types/node": "^10.12.18",
+    "@types/node": "^10.12.19",
     "@types/read-pkg-up": "^3.0.1",
     "@types/util.promisify": "^1.0.0",
     "@types/webpack": "^4.4.24",
