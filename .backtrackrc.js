@@ -3,49 +3,49 @@
 const log = require('@backtrack/core/dist/utils/log').default;
 const webpackVersion = require('./utils/webpack-version');
 
-function getWebpackTestTasks({ ci = false } = {}) {
+function getWebpackTestTasks() {
     const supported = ['next', '2', '3', '4'];
 
-    const tasks = supported.reduce((acc, version) => {
-        const result = [
-            ...acc,
-            {
+    const tasks = supported.reduce(
+        (acc, version) => {
+            const npmInstallTask = {
                 name: `install webpack ${version}`,
                 task: `npm install --no-save webpack@${version}`,
-            },
-        ];
+            };
 
-        if (ci === false) {
-            result.push({
-                name: 'test',
-                task: 'jest',
-            });
+            const result = {
+                local: [
+                    ...acc.local,
+                    npmInstallTask,
+                    { name: 'test', task: 'jest' },
+                ],
+                ci: [
+                    ...acc.ci,
+                    npmInstallTask,
+                    {
+                        name: 'test',
+                        task: 'jest --ci --no-cache --coverage --max-workers 2',
+                    },
+                    { name: 'codecov', task: 'codecov' },
+                ],
+            };
 
             return result;
-        }
-
-        result.push({
-            name: 'test',
-            task: 'jest --ci --no-cache --coverage --max-workers 2',
-        });
-
-        result.push({
-            name: 'codecov',
-            task: 'codecov',
-        });
-
-        return result;
-    }, []);
+        },
+        { ci: [], local: [] },
+    );
 
     return tasks;
 }
 
+const webpackTestTasks = getWebpackTestTasks();
+
 module.exports = {
     presets: [['@backtrack/node-module', { typescript: true }]],
 
-    'test.ci': [false, ...getWebpackTestTasks({ ci: true })],
+    'test.ci': [false, ...webpackTestTasks.ci],
 
-    'test.all': getWebpackTestTasks({ ci: false }),
+    'test.all': webpackTestTasks.local,
 
     config: {
         jest: (config) => {
