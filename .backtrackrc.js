@@ -4,7 +4,7 @@ const log = require('@backtrack/core/dist/utils/log').default;
 const webpackVersion = require('./utils/webpack-version');
 
 function getWebpackTestTasks({ ci = false } = {}) {
-    const supported = ['2', '3', '4'];
+    const supported = ['next', '2', '3', '4'];
 
     const tasks = supported.reduce((acc, version) => {
         const result = [
