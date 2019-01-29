@@ -1,5 +1,6 @@
 'use strict';
 
+const semver = require('semver');
 const log = require('@backtrack/core/dist/utils/log').default;
 const webpackVersion = require('./utils/webpack-version');
 
@@ -8,6 +9,16 @@ function getWebpackTestTasks() {
 
     const tasks = supported.reduce(
         (acc, version) => {
+            /**
+             * Webpack version 5 (currently @next) removed support for node 6.
+             */
+            if (
+                (version === 'next' || version === '5') &&
+                semver.lte(process.version, '8.0.0') === true
+            ) {
+                return acc;
+            }
+
             const npmInstallTask = {
                 name: `install webpack ${version}`,
                 task: `npm install --no-save webpack@${version}`,
@@ -32,7 +43,7 @@ function getWebpackTestTasks() {
 
             return result;
         },
-        { ci: [], local: [] }
+        { local: [], ci: [] }
     );
 
     return tasks;
