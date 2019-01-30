@@ -5,4 +5,4 @@
  *
  * Use higher than normal jest timeout to fix issue
  */
-jest.setTimeout(30000);
+jest.setTimeout(60000);
