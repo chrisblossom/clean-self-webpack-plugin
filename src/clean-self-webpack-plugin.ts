@@ -55,6 +55,7 @@ class CleanSelfWebpackPlugin {
 
         this.outputPath = undefined;
 
+        this.apply = this.apply.bind(this);
         this.handleInitial = this.handleInitial.bind(this);
         this.handleDone = this.handleDone.bind(this);
         this.removeFiles = this.removeFiles.bind(this);
