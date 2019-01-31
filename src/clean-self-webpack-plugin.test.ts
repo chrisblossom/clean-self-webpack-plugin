@@ -635,4 +635,28 @@ describe('CleanSelfWebpackPlugin', () => {
             });
         }
     });
+
+    test('handles no options.output', () => {
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+        cleanSelfWebpackPlugin.apply({ options: {} });
+
+        expect(consoleSpy.mock.calls).toEqual([
+            [
+                'clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...',
+            ],
+        ]);
+    });
+
+    test('handles no output.path', () => {
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+        cleanSelfWebpackPlugin.apply({ options: { output: {} } });
+
+        expect(consoleSpy.mock.calls).toEqual([
+            [
+                'clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...',
+            ],
+        ]);
+    });
 });
