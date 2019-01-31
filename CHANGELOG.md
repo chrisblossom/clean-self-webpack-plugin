@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+-   Test webpack@next
 -   Migrate to Typescript
--   Update backtrack
+-   Update packages
+-   Use [temp-sandbox](https://github.com/chrisblossom/temp-sandbox) for tests
 
 ## [2.0.3] - 2018-07-25
 
