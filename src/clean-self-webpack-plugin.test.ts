@@ -2,8 +2,27 @@ import { Configuration, Stats } from 'webpack';
 import TempSandbox from 'temp-sandbox';
 import webpackVersion from '../utils/webpack-version';
 
+const webpackMajor =
+    webpackVersion !== null ? parseInt(webpackVersion.split('.')[0], 10) : null;
+
 function webpack(options: Configuration = {}) {
     const webpackActual = require('webpack');
+
+    // https://webpack.js.org/concepts/mode/
+    if (
+        options.mode === undefined &&
+        options.mode !== null &&
+        webpackMajor !== null &&
+        webpackMajor >= 4
+    ) {
+        // eslint-disable-next-line no-param-reassign
+        options.mode = 'development';
+    }
+
+    if (options.mode === null) {
+        // eslint-disable-next-line no-param-reassign
+        delete options.mode;
+    }
 
     const compiler = webpackActual(options);
 
@@ -27,9 +46,7 @@ const CleanSelfWebpackPlugin: any = function CleanSelfWebpackPlugin(
     ...args: any
 ) {
     const CleanSelfWebpackPluginActual = require('./clean-self-webpack-plugin');
-
     const cleanSelfWebpackPlugin = new CleanSelfWebpackPluginActual(...args);
-
     return cleanSelfWebpackPlugin;
 };
 
@@ -595,18 +612,16 @@ describe('CleanSelfWebpackPlugin', () => {
     });
 
     describe('webpack >= 4 only', () => {
-        const webpackMajor =
-            webpackVersion !== null
-                ? parseInt(webpackVersion.split('.')[0], 10)
-                : null;
-
         if (webpackMajor !== null && webpackMajor >= 4) {
             test('works without config', async () => {
                 await createSrcBundle(2);
 
                 const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
 
+                // @ts-ignore
                 const compiler = webpack({
+                    // internal test option to remove mode
+                    mode: null,
                     plugins: [cleanSelfWebpackPlugin],
                 });
 

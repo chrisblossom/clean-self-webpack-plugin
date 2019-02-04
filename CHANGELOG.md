@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Migrate to Typescript
 -   Update packages
 -   Use [temp-sandbox](https://github.com/chrisblossom/temp-sandbox) for tests
+-   Use `mode: 'development'` for testing webpack >= 4
 
 ## [2.0.3] - 2018-07-25
 
