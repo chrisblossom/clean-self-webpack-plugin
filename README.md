@@ -114,7 +114,7 @@ new CleanSelfWebpackPlugin({
      *
      * default: disabled
      */
-    initialPatterns: ['*/**'],
+    initialPatterns: ['**'],
 });
 ```
 
