@@ -2,19 +2,19 @@ import { Compiler, Stats } from 'webpack';
 import path from 'path';
 import del from 'del';
 
-type Options = {
+interface Options {
     dryRun: boolean;
     verbose: boolean;
     customPatterns: string[];
     initialPatterns: string[];
-};
+}
 
 class CleanSelfWebpackPlugin {
     private readonly options: Options;
 
     private currentAssets: string[];
     private initialClean: boolean;
-    private outputPath?: string;
+    private outputPath: string;
 
     constructor(options: Partial<Options> = {}) {
         this.options = {
@@ -53,7 +53,7 @@ class CleanSelfWebpackPlugin {
          */
         this.initialClean = false;
 
-        this.outputPath = undefined;
+        this.outputPath = '';
 
         this.apply = this.apply.bind(this);
         this.handleInitial = this.handleInitial.bind(this);
@@ -189,7 +189,7 @@ class CleanSelfWebpackPlugin {
          */
         if (this.options.verbose) {
             deleted.forEach((file) => {
-                const filename = path.relative(this.outputPath!, file);
+                const filename = path.relative(this.outputPath, file);
 
                 const message = this.options.dryRun ? 'dryRun' : 'removed';
 
