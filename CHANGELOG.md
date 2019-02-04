@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Update packages
 -   Use [temp-sandbox](https://github.com/chrisblossom/temp-sandbox) for tests
 -   Use `mode: 'development'` for testing webpack >= 4
+-   verbose mode log filename relative to webpack's output path
 
 ## [2.0.3] - 2018-07-25
 

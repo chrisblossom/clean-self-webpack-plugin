@@ -189,7 +189,7 @@ class CleanSelfWebpackPlugin {
          */
         if (this.options.verbose) {
             deleted.forEach((file) => {
-                const filename = path.parse(file).base;
+                const filename = path.relative(this.outputPath!, file);
 
                 const message = this.options.dryRun ? 'dryRun' : 'removed';
 
