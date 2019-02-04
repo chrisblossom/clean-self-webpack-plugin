@@ -649,7 +649,7 @@ describe('CleanSelfWebpackPlugin', () => {
 
         expect(consoleSpy.mock.calls).toEqual([
             [
-                'clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...',
+                'clean-self-webpack-plugin: options.output.path not defined. Plugin disabled...',
             ],
         ]);
     });
@@ -661,7 +661,7 @@ describe('CleanSelfWebpackPlugin', () => {
 
         expect(consoleSpy.mock.calls).toEqual([
             [
-                'clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...',
+                'clean-self-webpack-plugin: options.output.path not defined. Plugin disabled...',
             ],
         ]);
     });

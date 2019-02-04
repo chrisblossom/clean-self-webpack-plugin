@@ -65,7 +65,7 @@ class CleanSelfWebpackPlugin {
         if (!compiler.options.output || !compiler.options.output.path) {
             // eslint-disable-next-line no-console
             console.warn(
-                `clean-self-webpack-plugin: options.output.path not defined. Ignoring settings...`,
+                'clean-self-webpack-plugin: options.output.path not defined. Plugin disabled...',
             );
 
             return;
@@ -131,7 +131,7 @@ class CleanSelfWebpackPlugin {
             if (this.options.verbose) {
                 // eslint-disable-next-line no-console
                 console.warn(
-                    `clean-self-webpack-plugin: pausing due to webpack errors`,
+                    'clean-self-webpack-plugin: pausing due to webpack errors',
                 );
             }
 
