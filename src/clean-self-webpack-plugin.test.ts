@@ -90,207 +90,256 @@ function createStaticFiles() {
     );
 }
 
-describe('CleanSelfWebpackPlugin', () => {
-    let consoleSpy: any;
+let consoleSpy: any;
 
-    const cwd = process.cwd();
-    beforeEach(() => {
-        process.chdir(sandbox.dir);
+const cwd = process.cwd();
+beforeEach(() => {
+    process.chdir(sandbox.dir);
 
-        consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-        /**
-         * Prepare directories
-         */
-        sandbox.cleanSync();
-
-        /**
-         * Add static files that are not part of the webpack bundle
-         */
-        createStaticFiles();
-
-        /**
-         * Create initial entry.js without any additional bundles
-         */
-        createSrcBundle(1);
-    });
-
-    afterEach(() => {
-        process.chdir(cwd);
-        consoleSpy.mockReset();
-    });
-
-    afterAll(() => {
-        // delete sandbox and sandbox instance
-        sandbox.destroySandboxSync();
-        process.chdir(cwd);
-    });
-
-    test('adds files to current assets', async () => {
-        createSrcBundle(2);
-
-        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-        const options = {
-            entry: entryFileFull,
-            output: {
-                path: outputPathFull,
-                filename: 'bundle.js',
-                chunkFilename: '[name].bundle.js',
-            },
-            plugins: [cleanSelfWebpackPlugin],
-        };
-
-        const compiler = webpack(options);
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            '1.bundle.js',
-            'bundle.js',
-        ]);
-    });
-
-    test('removes only webpack files', async () => {
-        createSrcBundle(2);
-
-        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-
-        const compiler = webpack({
-            entry: entryFileFull,
-            output: {
-                path: outputPathFull,
-                filename: 'bundle.js',
-                chunkFilename: '[name].bundle.js',
-            },
-            plugins: [cleanSelfWebpackPlugin],
-        });
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            '1.bundle.js',
-            'bundle.js',
-        ]);
-
-        createSrcBundle(1);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            'bundle.js',
-            'static1.js',
-            'static2.txt',
-        ]);
-    });
-
-    test('removes nested files', async () => {
-        createSrcBundle(3);
-
-        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-
-        const compiler = webpack({
-            entry: entryFileFull,
-            output: {
-                path: outputPathFull,
-                filename: 'js/bundle.js',
-                chunkFilename: 'js/chunks/[name].bundle.js',
-            },
-            plugins: [cleanSelfWebpackPlugin],
-        });
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            'js/bundle.js',
-            'js/chunks/1.bundle.js',
-            'js/chunks/2.bundle.js',
-        ]);
-
-        createSrcBundle(2);
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            'js/bundle.js',
-            'js/chunks/1.bundle.js',
-        ]);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            'js/bundle.js',
-            'js/chunks/1.bundle.js',
-            'static1.js',
-            'static2.txt',
-        ]);
-    });
-
-    test('does nothing when nothing changes or files added but not removed', async () => {
-        createSrcBundle(1);
-
-        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-        const removeFilesSpy = jest.spyOn(
-            cleanSelfWebpackPlugin,
-            'removeFiles',
-        );
-
-        const compiler = webpack({
-            entry: entryFileFull,
-            output: {
-                path: outputPathFull,
-                filename: 'bundle.js',
-                chunkFilename: '[name].bundle.js',
-            },
-            plugins: [cleanSelfWebpackPlugin],
-        });
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            'bundle.js',
-            'static1.js',
-            'static2.txt',
-        ]);
-
-        createSrcBundle(2);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            '1.bundle.js',
-            'bundle.js',
-        ]);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            '1.bundle.js',
-            'bundle.js',
-            'static1.js',
-            'static2.txt',
-        ]);
-
-        expect(removeFilesSpy).not.toHaveBeenCalled();
-    });
+    consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
 
     /**
-     * customPatterns option
+     * Prepare directories
      */
+    sandbox.cleanSync();
+
+    /**
+     * Add static files that are not part of the webpack bundle
+     */
+    createStaticFiles();
+
+    /**
+     * Create initial entry.js without any additional bundles
+     */
+    createSrcBundle(1);
+});
+
+afterEach(() => {
+    process.chdir(cwd);
+    consoleSpy.mockReset();
+});
+
+afterAll(() => {
+    // delete sandbox and sandbox instance
+    sandbox.destroySandboxSync();
+    process.chdir(cwd);
+});
+
+test('adds files to current assets', async () => {
+    createSrcBundle(2);
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+    const options = {
+        entry: entryFileFull,
+        output: {
+            path: outputPathFull,
+            filename: 'bundle.js',
+            chunkFilename: '[name].bundle.js',
+        },
+        plugins: [cleanSelfWebpackPlugin],
+    };
+
+    const compiler = webpack(options);
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        '1.bundle.js',
+        'bundle.js',
+    ]);
+});
+
+test('removes only webpack files', async () => {
+    createSrcBundle(2);
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+    const compiler = webpack({
+        entry: entryFileFull,
+        output: {
+            path: outputPathFull,
+            filename: 'bundle.js',
+            chunkFilename: '[name].bundle.js',
+        },
+        plugins: [cleanSelfWebpackPlugin],
+    });
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        '1.bundle.js',
+        'bundle.js',
+    ]);
+
+    createSrcBundle(1);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        'bundle.js',
+        'static1.js',
+        'static2.txt',
+    ]);
+});
+
+test('removes nested files', async () => {
+    createSrcBundle(3);
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+    const compiler = webpack({
+        entry: entryFileFull,
+        output: {
+            path: outputPathFull,
+            filename: 'js/bundle.js',
+            chunkFilename: 'js/chunks/[name].bundle.js',
+        },
+        plugins: [cleanSelfWebpackPlugin],
+    });
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        'js/bundle.js',
+        'js/chunks/1.bundle.js',
+        'js/chunks/2.bundle.js',
+    ]);
+
+    createSrcBundle(2);
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        'js/bundle.js',
+        'js/chunks/1.bundle.js',
+    ]);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        'js/bundle.js',
+        'js/chunks/1.bundle.js',
+        'static1.js',
+        'static2.txt',
+    ]);
+});
+
+test('does nothing when nothing changes or files added but not removed', async () => {
+    createSrcBundle(1);
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+    const removeFilesSpy = jest.spyOn(cleanSelfWebpackPlugin, 'removeFiles');
+
+    const compiler = webpack({
+        entry: entryFileFull,
+        output: {
+            path: outputPathFull,
+            filename: 'bundle.js',
+            chunkFilename: '[name].bundle.js',
+        },
+        plugins: [cleanSelfWebpackPlugin],
+    });
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        'bundle.js',
+        'static1.js',
+        'static2.txt',
+    ]);
+
+    createSrcBundle(2);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        '1.bundle.js',
+        'bundle.js',
+    ]);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        '1.bundle.js',
+        'bundle.js',
+        'static1.js',
+        'static2.txt',
+    ]);
+
+    expect(removeFilesSpy).not.toHaveBeenCalled();
+});
+
+test('removes map files', async () => {
+    createSrcBundle(2);
+
+    const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+    const compiler = webpack({
+        entry: entryFileFull,
+        output: {
+            path: outputPathFull,
+            filename: 'bundle.js',
+            chunkFilename: '[name].bundle.js',
+        },
+        devtool: 'cheap-module-source-map',
+        plugins: [cleanSelfWebpackPlugin],
+    });
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        '1.bundle.js',
+        '1.bundle.js.map',
+        'bundle.js',
+        'bundle.js.map',
+    ]);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        '1.bundle.js',
+        '1.bundle.js.map',
+        'bundle.js',
+        'bundle.js.map',
+        'static1.js',
+        'static2.txt',
+    ]);
+
+    createSrcBundle(1);
+
+    await compiler.run();
+
+    expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+        'bundle.js',
+        'bundle.js.map',
+    ]);
+
+    expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+        '.hidden.file',
+        'bundle.js',
+        'bundle.js.map',
+        'static1.js',
+        'static2.txt',
+    ]);
+});
+
+describe('customPatterns option', () => {
     test('removes with customPatterns', async () => {
         createSrcBundle(2);
 
@@ -336,10 +385,9 @@ describe('CleanSelfWebpackPlugin', () => {
             'static1.js',
         ]);
     });
+});
 
-    /**
-     * dryRun option
-     */
+describe('dryRun option', () => {
     test('respects dryRun option (force verbose)', async () => {
         createSrcBundle(2);
 
@@ -385,10 +433,9 @@ describe('CleanSelfWebpackPlugin', () => {
             'clean-self-webpack-plugin: dryRun 1.bundle.js',
         );
     });
+});
 
-    /**
-     * Verbose option
-     */
+describe('verbose option', () => {
     test('respects verbose option - true', async () => {
         createSrcBundle(2);
 
@@ -440,10 +487,9 @@ describe('CleanSelfWebpackPlugin', () => {
 
         expect(consoleSpy).not.toHaveBeenCalled();
     });
+});
 
-    /**
-     * initialPatterns option
-     */
+describe('initialPatterns option', () => {
     test('handles the initialPatterns option (only calls once)', async () => {
         createSrcBundle(1);
 
@@ -539,10 +585,9 @@ describe('CleanSelfWebpackPlugin', () => {
             'static2.txt',
         ]);
     });
+});
 
-    /**
-     * webpack errors
-     */
+describe('webpack errors', () => {
     test('does nothing when webpack errors are present', async () => {
         createSrcBundle(2);
 
@@ -614,102 +659,6 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
     });
 
-    test('removes map files', async () => {
-        createSrcBundle(2);
-
-        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-
-        const compiler = webpack({
-            entry: entryFileFull,
-            output: {
-                path: outputPathFull,
-                filename: 'bundle.js',
-                chunkFilename: '[name].bundle.js',
-            },
-            devtool: 'cheap-module-source-map',
-            plugins: [cleanSelfWebpackPlugin],
-        });
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            '1.bundle.js',
-            '1.bundle.js.map',
-            'bundle.js',
-            'bundle.js.map',
-        ]);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            '1.bundle.js',
-            '1.bundle.js.map',
-            'bundle.js',
-            'bundle.js.map',
-            'static1.js',
-            'static2.txt',
-        ]);
-
-        createSrcBundle(1);
-
-        await compiler.run();
-
-        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-            'bundle.js',
-            'bundle.js.map',
-        ]);
-
-        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-            '.hidden.file',
-            'bundle.js',
-            'bundle.js.map',
-            'static1.js',
-            'static2.txt',
-        ]);
-    });
-
-    describe('webpack >= 4 only', () => {
-        if (webpackMajor !== null && webpackMajor >= 4) {
-            test('works without config', async () => {
-                createSrcBundle(2);
-
-                const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
-
-                // @ts-ignore
-                const compiler = webpack({
-                    // internal test option to remove mode
-                    mode: null,
-                    plugins: [cleanSelfWebpackPlugin],
-                });
-
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
-
-                await compiler.run();
-
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    '1.js',
-                    'main.js',
-                ]);
-
-                createSrcBundle(1);
-
-                await compiler.run();
-
-                expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
-                    'main.js',
-                ]);
-
-                expect(sandbox.getFileListSync(outputPathFull)).toEqual([
-                    '.hidden.file',
-                    'main.js',
-                    'static1.js',
-                    'static2.txt',
-                ]);
-            });
-        }
-    });
-
     test('handles no options.output', () => {
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
 
@@ -733,4 +682,43 @@ describe('CleanSelfWebpackPlugin', () => {
             ],
         ]);
     });
+});
+
+describe('webpack >= 4 only', () => {
+    if (webpackMajor !== null && webpackMajor >= 4) {
+        test('works without config', async () => {
+            createSrcBundle(2);
+
+            const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin();
+
+            // @ts-ignore
+            const compiler = webpack({
+                // internal test option to remove mode
+                mode: null,
+                plugins: [cleanSelfWebpackPlugin],
+            });
+
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+            await compiler.run();
+
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual([
+                '1.js',
+                'main.js',
+            ]);
+
+            createSrcBundle(1);
+
+            await compiler.run();
+
+            expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['main.js']);
+
+            expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+                '.hidden.file',
+                'main.js',
+                'static1.js',
+                'static2.txt',
+            ]);
+        });
+    }
 });
