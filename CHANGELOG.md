@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.4] - 2019-02-04
+
 ### Changed
 
 -   Test webpack@next
