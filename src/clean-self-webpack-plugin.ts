@@ -182,6 +182,7 @@ class CleanSelfWebpackPlugin {
             // Change context to build directory
             cwd: this.outputPath,
             dryRun: this.options.dryRun,
+            dot: true,
         });
 
         /**

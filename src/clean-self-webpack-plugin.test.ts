@@ -82,8 +82,8 @@ function createSrcBundle(numberOfBundles = 1) {
 }
 
 function createStaticFiles() {
+    sandbox.createFileSync('dist/.hidden.file', '.hidden.file');
     sandbox.createFileSync('dist/static2.txt', 'static2.txt');
-
     sandbox.createFileSync(
         'dist/static1.js',
         `'use strict';\n\nmodule.exports = 'static1.js';`,
@@ -183,6 +183,7 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'static1.js',
             'static2.txt',
@@ -223,6 +224,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'js/bundle.js',
             'js/chunks/1.bundle.js',
             'static1.js',
@@ -260,6 +262,7 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'static1.js',
             'static2.txt',
@@ -275,6 +278,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             'bundle.js',
             'static1.js',
@@ -314,6 +318,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             'bundle.js',
             'static1.js',
@@ -326,6 +331,7 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'static1.js',
         ]);
@@ -368,6 +374,7 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             'bundle.js',
             'static1.js',
@@ -441,7 +448,11 @@ describe('CleanSelfWebpackPlugin', () => {
         createSrcBundle(1);
 
         const initialBuildFiles = sandbox.getFileListSync(outputPathFull);
-        expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
+        expect(initialBuildFiles).toEqual([
+            '.hidden.file',
+            'static1.js',
+            'static2.txt',
+        ]);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
             initialPatterns: ['static2.txt'],
@@ -464,6 +475,7 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'static1.js',
         ]);
@@ -475,6 +487,53 @@ describe('CleanSelfWebpackPlugin', () => {
         expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
+            'bundle.js',
+            'static1.js',
+            'static2.txt',
+        ]);
+    });
+
+    test('handles the initialPatterns removes all files with **', async () => {
+        createSrcBundle(1);
+
+        const initialBuildFiles = sandbox.getFileListSync(outputPathFull);
+        expect(initialBuildFiles).toEqual([
+            '.hidden.file',
+            'static1.js',
+            'static2.txt',
+        ]);
+
+        const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
+            initialPatterns: ['**'],
+        });
+
+        const compiler = webpack({
+            entry: entryFileFull,
+            output: {
+                path: outputPathFull,
+                filename: 'bundle.js',
+                chunkFilename: '[name].bundle.js',
+            },
+            plugins: [cleanSelfWebpackPlugin],
+        });
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual([]);
+
+        await compiler.run();
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+        expect(sandbox.getFileListSync(outputPathFull)).toEqual(['bundle.js']);
+
+        createStaticFiles();
+
+        await compiler.run();
+
+        expect(cleanSelfWebpackPlugin.currentAssets).toEqual(['bundle.js']);
+
+        expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'static1.js',
             'static2.txt',
@@ -488,7 +547,11 @@ describe('CleanSelfWebpackPlugin', () => {
         createSrcBundle(2);
 
         const initialBuildFiles = sandbox.getFileListSync(outputPathFull);
-        expect(initialBuildFiles).toEqual(['static1.js', 'static2.txt']);
+        expect(initialBuildFiles).toEqual([
+            '.hidden.file',
+            'static1.js',
+            'static2.txt',
+        ]);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
             verbose: true,
@@ -514,6 +577,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             'bundle.js',
             'static1.js',
@@ -542,6 +606,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             'bundle.js',
             'static1.js',
@@ -577,6 +642,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             '1.bundle.js',
             '1.bundle.js.map',
             'bundle.js',
@@ -595,6 +661,7 @@ describe('CleanSelfWebpackPlugin', () => {
         ]);
 
         expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+            '.hidden.file',
             'bundle.js',
             'bundle.js.map',
             'static1.js',
@@ -634,6 +701,7 @@ describe('CleanSelfWebpackPlugin', () => {
                 ]);
 
                 expect(sandbox.getFileListSync(outputPathFull)).toEqual([
+                    '.hidden.file',
                     'main.js',
                     'static1.js',
                     'static2.txt',
