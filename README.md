@@ -1,3 +1,5 @@
+> This module has been deprecated because it has been merged with [johnagan/clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin).
+
 # clean-self-webpack-plugin
 
 [![npm](https://img.shields.io/npm/v/clean-self-webpack-plugin.svg?label=npm%20version)](https://www.npmjs.com/package/clean-self-webpack-plugin)
