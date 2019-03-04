@@ -1,6 +1,6 @@
 import { Compiler, Stats } from 'webpack';
 import path from 'path';
-import del from 'del';
+import { sync as delSync } from 'del';
 
 interface Options {
     dryRun: boolean;
@@ -178,7 +178,7 @@ class CleanSelfWebpackPlugin {
     }
 
     removeFiles(patterns: string[]) {
-        const deleted = del.sync(patterns, {
+        const deleted = delSync(patterns, {
             // Change context to build directory
             cwd: this.outputPath,
             dryRun: this.options.dryRun,

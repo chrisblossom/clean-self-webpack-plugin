@@ -52,7 +52,7 @@ function getWebpackTestTasks() {
 const webpackTestTasks = getWebpackTestTasks();
 
 module.exports = {
-    presets: [['@backtrack/node-module', { typescript: true }]],
+    presets: [['@backtrack/node', { mode: 'module', syntax: 'typescript' }]],
 
     'test.ci': [false, ...webpackTestTasks.ci],
 

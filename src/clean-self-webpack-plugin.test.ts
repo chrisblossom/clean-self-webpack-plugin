@@ -540,7 +540,7 @@ describe('initialPatterns option', () => {
         ]);
     });
 
-    test('handles the initialPatterns removes all files with **', async () => {
+    test('handles the initialPatterns removes all files with **/*', async () => {
         createSrcBundle(1);
 
         const initialBuildFiles = sandbox.getFileListSync(outputPathFull);
@@ -551,7 +551,7 @@ describe('initialPatterns option', () => {
         ]);
 
         const cleanSelfWebpackPlugin = new CleanSelfWebpackPlugin({
-            initialPatterns: ['**'],
+            initialPatterns: ['**/*'],
         });
 
         const compiler = webpack({
